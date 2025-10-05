@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact — Kamla Electrodes</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- cache-buster ?v=2 forces a fresh load if your browser cached old CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css?v=2">
 </head>
 <body>
 
@@ -12,8 +13,10 @@
   <div class="container">
     <nav>
       <div class="left">
-        <img src="/assets/img/logo-gear.png" alt="Kamla Electrodes logo">
-        <div class="brand">KAMLA ELECTRODES</div>
+        <a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none">
+          <img src="/assets/img/logo-gear.png" alt="Kamla Electrodes logo" style="height:42px">
+          <span class="brand">KAMLA ELECTRODES</span>
+        </a>
       </div>
       <button class="nav-toggle">Menu</button>
       <ul>
@@ -35,46 +38,32 @@
     <p class="muted">Fill this form and our sales team will get back within one business day.</p>
 
     <form action="https://api.web3forms.com/submit" method="POST" class="card" id="contactForm">
-      <!-- REQUIRED: Your Web3Forms access key -->
       <input type="hidden" name="access_key" value="0f61cd3c-0bf4-4020-ad7b-5a9b48418d4e">
-      <!-- Email subject & sender label -->
       <input type="hidden" name="subject" value="New inquiry via KamlaElectrodes.com">
       <input type="hidden" name="from_name" value="KamlaElectrodes.com">
-      <!-- Redirect after success -->
       <input type="hidden" name="redirect" value="https://kamlaelectrodes.com/pages/thank-you.html">
-      <!-- Spam trap -->
       <input type="checkbox" name="botcheck" class="hidden" style="display:none">
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div>
-          <label>Name<br>
-            <input name="name" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
-          </label>
-        </div>
-        <div>
-          <label>Email<br>
-            <input type="email" name="email" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
-          </label>
-        </div>
+        <div><label>Name<br>
+          <input name="name" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+        </label></div>
+        <div><label>Email<br>
+          <input type="email" name="email" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+        </label></div>
       </div>
 
-      <div style="margin-top:12px">
-        <label>Company<br>
-          <input name="company" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
-        </label>
-      </div>
+      <div style="margin-top:12px"><label>Company<br>
+        <input name="company" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+      </label></div>
 
-      <div style="margin-top:12px">
-        <label>Phone<br>
-          <input name="phone" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
-        </label>
-      </div>
+      <div style="margin-top:12px"><label>Phone<br>
+        <input name="phone" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+      </label></div>
 
-      <div style="margin-top:12px">
-        <label>Message<br>
-          <textarea name="message" rows="5" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></textarea>
-        </label>
-      </div>
+      <div style="margin-top:12px"><label>Message<br>
+        <textarea name="message" rows="5" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></textarea>
+      </label></div>
 
       <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
         <button class="cta" type="submit" style="border:none">Send</button>
@@ -87,9 +76,7 @@
       (<a href="https://share.google/VFMHtKV4SGM0NSVqa" target="_blank" rel="noopener">View map</a>)<br>
       <strong>Plant:</strong> Indra Puram, Achronda Industrial Area, Partapur, Meerut, UP
       (<a href="https://share.google/LgeukMP0LvvjTK8QN" target="_blank" rel="noopener">View map</a>)<br>
-      <strong>Phone:</strong>
-      <a href="tel:+919412205763">+91 9412205763</a>,
-      <a href="tel:+919760975890">+91 9760975890</a><br>
+      <strong>Phone:</strong> <a href="tel:+919412205763">+91 9412205763</a>, <a href="tel:+919760975890">+91 9760975890</a><br>
       <strong>Email:</strong> <a href="mailto:kamlaelectrodes@gmail.com">kamlaelectrodes@gmail.com</a>
     </p>
   </div>
@@ -123,7 +110,7 @@
   </div>
 </footer>
 
-<script src="/assets/js/app.js"></script>
+<script src="/assets/js/app.js?v=2"></script>
 <script>
 (function () {
   const form = document.getElementById('contactForm');
