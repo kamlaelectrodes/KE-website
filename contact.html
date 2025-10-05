@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact — Kamla Electrodes</title>
-  <!-- cache-buster ?v=2 forces a fresh load if your browser cached old CSS -->
-  <link rel="stylesheet" href="/assets/css/style.css?v=2">
+  <!-- style lives in repo root -->
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
@@ -13,20 +13,20 @@
   <div class="container">
     <nav>
       <div class="left">
-        <a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none">
-          <img src="/assets/img/logo-gear.png" alt="Kamla Electrodes logo" style="height:42px">
+        <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none">
+          <img src="logo-gear.png" alt="Kamla Electrodes logo" style="height:42px">
           <span class="brand">KAMLA ELECTRODES</span>
         </a>
       </div>
       <button class="nav-toggle">Menu</button>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-        <li><a href="/pages/products.html">Products</a></li>
-        <li><a href="/pages/quality.html">Quality</a></li>
-        <li><a href="/pages/process.html">Process</a></li>
-        <li><a href="/pages/case-study.html">Case Study</a></li>
-        <li><a href="/pages/contact.html">Contact</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="quality.html">Quality</a></li>
+        <li><a href="process.html">Process</a></li>
+        <li><a href="case-study.html">Case Study</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -41,7 +41,8 @@
       <input type="hidden" name="access_key" value="0f61cd3c-0bf4-4020-ad7b-5a9b48418d4e">
       <input type="hidden" name="subject" value="New inquiry via KamlaElectrodes.com">
       <input type="hidden" name="from_name" value="KamlaElectrodes.com">
-      <input type="hidden" name="redirect" value="https://kamlaelectrodes.com/pages/thank-you.html">
+      <!-- thank-you page is also in the root -->
+      <input type="hidden" name="redirect" value="/thank-you.html">
       <input type="checkbox" name="botcheck" class="hidden" style="display:none">
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
@@ -85,7 +86,7 @@
 <footer>
   <div class="container cols">
     <div>
-      <img src="/assets/img/logo-gear.png" alt="" style="height:36px">
+      <img src="logo-gear.png" alt="" style="height:36px">
       <p><strong>Kamla Electrodes (India)</strong><br><span class="muted">Forging Lasting Bonds since 1989</span></p>
       <p class="muted">© 2025 Kamla Electrodes. All rights reserved.</p>
     </div>
@@ -102,15 +103,16 @@
     <div>
       <strong>Quick Links</strong>
       <p>
-        <a href="/pages/quality.html">Quality Assurance</a><br>
-        <a href="/pages/process.html">Manufacturing</a><br>
-        <a href="/pages/contact.html">Contact</a>
+        <a href="quality.html">Quality Assurance</a><br>
+        <a href="process.html">Manufacturing</a><br>
+        <a href="contact.html">Contact</a>
       </p>
     </div>
   </div>
 </footer>
 
-<script src="/assets/js/app.js?v=2"></script>
+<!-- scripts also live in root -->
+<script src="app.js?v=2"></script>
 <script>
 (function () {
   const form = document.getElementById('contactForm');
