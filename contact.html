@@ -1,26 +1,29 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contact — Kamla Electrodes</title>
-<link rel="stylesheet" href="style.css"></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact — Kamla Electrodes</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
 <body>
 
 <header>
   <div class="container">
     <nav>
       <div class="left">
-        <img src="logo-gear.png" alt="Kamla Electrodes logo">
+        <img src="/assets/img/logo-gear.png" alt="Kamla Electrodes logo">
         <div class="brand">KAMLA ELECTRODES</div>
       </div>
       <button class="nav-toggle">Menu</button>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="quality.html">Quality</a></li>
-        <li><a href="process.html">Process</a></li>
-        <li><a href="case-study.html">Case Study</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/pages/about.html">About</a></li>
+        <li><a href="/pages/products.html">Products</a></li>
+        <li><a href="/pages/quality.html">Quality</a></li>
+        <li><a href="/pages/process.html">Process</a></li>
+        <li><a href="/pages/case-study.html">Case Study</a></li>
+        <li><a href="/pages/contact.html">Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -28,53 +31,127 @@
 
 <section class="section">
   <div class="container">
-    
-<h2>Contact Us</h2>
-<p class="muted">Fill this form and our sales team will get back within one business day.</p>
-<form action="https://api.web3forms.com/submit" method="POST" class="card">
-  <input type="hidden" name="access_key" value="REPLACE_WITH_YOUR_ACCESS_KEY">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-    <div><label>Name<br><input name="name" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></label></div>
-    <div><label>Email<br><input type="email" name="email" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></label></div>
-  </div>
-  <div style="margin-top:12px"><label>Company<br><input name="company" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></label></div>
-  <div style="margin-top:12px"><label>Message<br><textarea name="message" rows="5" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></textarea></label></div>
-  <input type="checkbox" name="botcheck" class="hidden" style="display:none">
-  <button class="cta" type="submit" style="border:none">Send</button>
-</form>
-<p style="margin-top:18px" class="muted">
-  Head Office: 217, Chhipi Tank, Meerut, UP – 250001<br>
-  Plant: Indra Puram, Achronda Industrial Area, Partapur, Meerut, UP<br>
-  Phone: +91 9412205763, +91 9760975890
-</p>
+    <h2>Contact Us</h2>
+    <p class="muted">Fill this form and our sales team will get back within one business day.</p>
 
+    <form action="https://api.web3forms.com/submit" method="POST" class="card" id="contactForm">
+      <!-- REQUIRED: Your Web3Forms access key -->
+      <input type="hidden" name="access_key" value="0f61cd3c-0bf4-4020-ad7b-5a9b48418d4e">
+      <!-- Email subject & sender label -->
+      <input type="hidden" name="subject" value="New inquiry via KamlaElectrodes.com">
+      <input type="hidden" name="from_name" value="KamlaElectrodes.com">
+      <!-- Redirect after success -->
+      <input type="hidden" name="redirect" value="https://kamlaelectrodes.com/pages/thank-you.html">
+      <!-- Spam trap -->
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label>Name<br>
+            <input name="name" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+          </label>
+        </div>
+        <div>
+          <label>Email<br>
+            <input type="email" name="email" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+          </label>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <label>Company<br>
+          <input name="company" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+        </label>
+      </div>
+
+      <div style="margin-top:12px">
+        <label>Phone<br>
+          <input name="phone" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+        </label>
+      </div>
+
+      <div style="margin-top:12px">
+        <label>Message<br>
+          <textarea name="message" rows="5" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></textarea>
+        </label>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+        <button class="cta" type="submit" style="border:none">Send</button>
+        <button type="button" id="waBtn" class="cta" style="border:none;background:#25D366">Send via WhatsApp</button>
+      </div>
+    </form>
+
+    <p style="margin-top:18px" class="muted">
+      <strong>Head Office:</strong> 217, Chhipi Tank, Meerut, UP – 250001
+      (<a href="https://share.google/VFMHtKV4SGM0NSVqa" target="_blank" rel="noopener">View map</a>)<br>
+      <strong>Plant:</strong> Indra Puram, Achronda Industrial Area, Partapur, Meerut, UP
+      (<a href="https://share.google/LgeukMP0LvvjTK8QN" target="_blank" rel="noopener">View map</a>)<br>
+      <strong>Phone:</strong>
+      <a href="tel:+919412205763">+91 9412205763</a>,
+      <a href="tel:+919760975890">+91 9760975890</a><br>
+      <strong>Email:</strong> <a href="mailto:kamlaelectrodes@gmail.com">kamlaelectrodes@gmail.com</a>
+    </p>
   </div>
 </section>
 
 <footer>
   <div class="container cols">
     <div>
-      <img src="logo-gear.png" alt="" style="height:36px">
+      <img src="/assets/img/logo-gear.png" alt="" style="height:36px">
       <p><strong>Kamla Electrodes (India)</strong><br><span class="muted">Forging Lasting Bonds since 1989</span></p>
       <p class="muted">© 2025 Kamla Electrodes. All rights reserved.</p>
     </div>
     <div>
       <strong>Contact</strong>
       <p class="muted">
-  217, Chhipi Tank, Meerut, UP – 250001<br>
-  Indra Puram, Achronda Industrial Area, Partapur, Meerut, UP<br>
-  <a href="tel:+919412205763">+91 9412205763</a><br>
-  <a href="mailto:kamlaelectrodes@gmail.com">kamlaelectrodes@gmail.com</a>
-</p>
+        217, Chhipi Tank, Meerut, UP – 250001<br>
+        Indra Puram, Achronda Industrial Area, Partapur, Meerut, UP<br>
+        <a href="tel:+919412205763">+91 9412205763</a><br>
+        <a href="tel:+919760975890">+91 9760975890</a><br>
+        <a href="mailto:kamlaelectrodes@gmail.com">kamlaelectrodes@gmail.com</a>
+      </p>
     </div>
     <div>
       <strong>Quick Links</strong>
-      <p><a href="quality.html">Quality Assurance</a><br>
-      <a href="process.html">Manufacturing</a><br>
-      <a href="contact.html">Contact</a></p>
+      <p>
+        <a href="/pages/quality.html">Quality Assurance</a><br>
+        <a href="/pages/process.html">Manufacturing</a><br>
+        <a href="/pages/contact.html">Contact</a>
+      </p>
     </div>
   </div>
 </footer>
-<script src="app.js"></script>
 
-</body></html>
+<script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  const form = document.getElementById('contactForm');
+  const waBtn = document.getElementById('waBtn');
+  if (!form || !waBtn) return;
+
+  waBtn.addEventListener('click', function () {
+    const name = (form.querySelector('[name="name"]')?.value || '').trim();
+    const email = (form.querySelector('[name="email"]')?.value || '').trim();
+    const company = (form.querySelector('[name="company"]')?.value || '').trim();
+    const phone = (form.querySelector('[name="phone"]')?.value || '').trim();
+    const message = (form.querySelector('[name="message"]')?.value || '').trim();
+
+    const lines = [
+      'New inquiry via KamlaElectrodes.com',
+      name ? 'Name: ' + name : '',
+      email ? 'Email: ' + email : '',
+      company ? 'Company: ' + company : '',
+      phone ? 'Phone: ' + phone : '',
+      message ? 'Message: ' + message : ''
+    ].filter(Boolean).join('\\n');
+
+    const to = '919412205763'; // country code + number
+    const url = 'https://wa.me/' + to + '?text=' + encodeURIComponent(lines);
+    window.open(url, '_blank');
+  });
+})();
+</script>
+
+</body>
+</html>
