@@ -1,0 +1,21 @@
+{
+  "lastUpdated": "2026-07-07",
+  "notes": "Editable dealer source for the public dealer locator. Add, remove, or update dealer objects as dealership coverage changes. Leave unavailable fields as an empty string or 'Available on request'.",
+  "dealerSchema": {
+    "id": "unique-lowercase-id",
+    "name": "Dealer / firm name",
+    "authorised": true,
+    "city": "City",
+    "state": "State",
+    "region": "North / Central / East / West / South India",
+    "address": "Full address or Available on request",
+    "phone": "Phone number or Available on request",
+    "email": "Email or Available on request",
+    "brands": ["Kmatic", "Lotus", "Mahagun"],
+    "lat": 0,
+    "lng": 0,
+    "googleMapsUrl": "Google Maps place/search URL when available",
+    "status": "active"
+  },
+  "dealers": []
+}
