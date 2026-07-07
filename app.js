@@ -1,23 +1,55 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.querySelector('.nav-toggle');
-  const menu = document.querySelector('nav ul');
-  const whatsappNumbers = ['919760975890', '919412205763'];
+  const whatsappNumbers = ['919760975890', '919412205763', '918979090370'];
+  const contacts = [
+    { name: 'Arun Kumar Mittal', role: 'Managing Partner', phone: '+91 94122 05763', tel: '+919412205763' },
+    { name: 'Mani Mittal', role: 'Partner', phone: '+91 97609 75890', tel: '+919760975890' },
+    { name: 'Purshottam Mittal', role: 'Partner', phone: '+91 89790 90370', tel: '+918979090370' }
+  ];
+  const googleProfiles = {
+    plant: 'https://share.google/cPMTybP8TIPuiNzU8',
+    headOffice: 'https://share.google/YtWdOuhbiAWm51v8w'
+  };
 
-  if (!document.querySelector('link[href="site-enhancements.css?v=2"]')) {
+  if (!document.querySelector('link[href="site-enhancements.css?v=3"]')) {
     const enhancementStyles = document.createElement('link');
     enhancementStyles.rel = 'stylesheet';
-    enhancementStyles.href = 'site-enhancements.css?v=2';
+    enhancementStyles.href = 'site-enhancements.css?v=3';
     document.head.appendChild(enhancementStyles);
   }
 
-  if (menu && !menu.querySelector('a[href="dealer-locator.html"]')) {
-    const dealerItem = document.createElement('li');
-    dealerItem.innerHTML = '<a href="dealer-locator.html">Find Dealer</a>';
-    const technicalLink = menu.querySelector('a[href="technical-resources.html"]');
-    const contactLink = menu.querySelector('a[href="contact.html"]');
-    const insertBefore = technicalLink?.closest('li') || contactLink?.closest('li') || null;
-    menu.insertBefore(dealerItem, insertBefore);
+  const nav = document.querySelector('nav');
+  const menu = document.querySelector('nav ul');
+  const btn = document.querySelector('.nav-toggle');
+
+  const navItems = [
+    ['index.html', 'Home'],
+    ['about.html', 'About'],
+    ['products.html', 'Products'],
+    ['quality-standards.html', 'Quality'],
+    ['infrastructure.html', 'Infrastructure'],
+    ['industries-served.html', 'Industries'],
+    ['dealer-locator.html', 'Find Dealer'],
+    ['technical-resources.html', 'Technical'],
+    ['contact.html', 'Contact']
+  ];
+
+  if (menu) {
+    menu.innerHTML = navItems.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('');
   }
+
+  if (nav) {
+    let navActions = nav.querySelector('.nav-actions');
+    if (!navActions) {
+      navActions = document.createElement('div');
+      navActions.className = 'nav-actions';
+      nav.appendChild(navActions);
+    }
+    navActions.innerHTML = '<a class="button button-primary" href="get-a-quote.html">Get a Quote</a>';
+  }
+
+  document.querySelectorAll('.topbar .container').forEach((bar) => {
+    bar.innerHTML = '<div>Meerut, Uttar Pradesh · Manufacturing since 1989</div><div><a href="tel:+919412205763">+91 94122 05763</a> · <a href="tel:+919760975890">+91 97609 75890</a></div>';
+  });
 
   if (btn && menu) {
     btn.innerHTML = '<span>Menu</span><span aria-hidden="true">◆</span>';
@@ -46,9 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.notice').forEach((notice) => {
     const cleaned = publicSafeNotice(notice.textContent || '');
-    if (cleaned !== notice.textContent) {
-      notice.textContent = cleaned;
-    }
+    if (cleaned !== notice.textContent) notice.textContent = cleaned;
   });
 
   const pageName = window.location.pathname.split('/').pop() || 'index.html';
@@ -66,9 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (commercialCopy[pageName]) {
     const target = document.querySelector(commercialCopy[pageName].selector);
-    if (target && !target.querySelector('.commercial-strip')) {
-      target.insertAdjacentHTML('beforeend', commercialCopy[pageName].html);
-    }
+    if (target && !target.querySelector('.commercial-strip')) target.insertAdjacentHTML('beforeend', commercialCopy[pageName].html);
   }
 
   const buildFormSummary = (form) => {
@@ -103,9 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       input.style.display = 'none';
       form.appendChild(input);
     }
-    if (!form.querySelector('.form-status')) {
-      form.insertAdjacentHTML('beforeend', '<p class="form-status" aria-live="polite"></p>');
-    }
+    if (!form.querySelector('.form-status')) form.insertAdjacentHTML('beforeend', '<p class="form-status" aria-live="polite"></p>');
 
     const existingWhatsappButton = form.querySelector('#waBtn, .wa-fallback');
     if (existingWhatsappButton) {
@@ -132,15 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (status) status.textContent = 'Submitting your enquiry by email…';
 
       try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' }
-        });
+        const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
         const data = await response.json().catch(() => ({}));
-        if (!response.ok || data.success === false) {
-          throw new Error(data.message || 'Submission failed');
-        }
+        if (!response.ok || data.success === false) throw new Error(data.message || 'Submission failed');
         if (status) status.textContent = 'Thank you. Your enquiry has been sent to Kamla Electrodes by email.';
         form.reset();
       } catch (error) {
@@ -152,6 +172,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+  });
+
+  document.querySelectorAll('footer').forEach((footer) => {
+    footer.innerHTML = `
+      <div class="container footer-grid">
+        <div>
+          <img src="logo-gear.png" alt="Kamla Electrodes icon" style="height:38px">
+          <p><strong>Kamla Electrodes (India)</strong><br><span class="muted">Forging Lasting Bonds since 1989.</span></p>
+          <p class="muted">Reliable welding electrode manufacturing for dealers, fabricators, procurement teams, and industrial buyers across India.</p>
+        </div>
+        <div>
+          <strong>Direct Contacts</strong>
+          <p class="muted">${contacts.map(contact => `<a href="tel:${contact.tel}">${contact.name}</a><br><small>${contact.role} · ${contact.phone}</small>`).join('<br>')}</p>
+        </div>
+        <div>
+          <strong>Locations</strong>
+          <p class="muted"><strong>Head Office:</strong><br>217, Chhipi Tank, Meerut, UP – 250001<br><a href="${googleProfiles.headOffice}" target="_blank" rel="noopener">View Head Office on Google</a></p>
+          <p class="muted"><strong>Plant:</strong><br>68, Achronda Industrial Area, Partapur, Meerut, UP<br><a href="${googleProfiles.plant}" target="_blank" rel="noopener">View Plant on Google</a></p>
+        </div>
+        <div>
+          <strong>Business Links</strong>
+          <p><a href="products.html">Products</a><br><a href="get-a-quote.html">Get a Quote</a><br><a href="dealer-locator.html">Find Dealer</a><br><a href="become-a-dealer.html">Become a Dealer</a><br><a href="technical-resources.html">Technical Resources</a></p>
+          <p class="muted"><strong>Email:</strong><br><a href="mailto:kamlaelectrodes@gmail.com">kamlaelectrodes@gmail.com</a></p>
+        </div>
+      </div>`;
   });
 
   const current = pageName;
