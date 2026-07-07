@@ -1,6 +1,6 @@
 {
   "lastUpdated": "2026-07-07",
-  "notes": "Editable dealer source for the public dealer locator. Add, remove, or update dealer objects as dealership coverage changes. Leave unavailable fields as an empty string or 'Available on request'.",
+  "notes": "Editable dealer source for the public dealer locator. Only list dealers that management has approved for public display. Use Google Maps search URLs where exact coordinates are not yet verified.",
   "dealerSchema": {
     "id": "unique-lowercase-id",
     "name": "Dealer / firm name",
@@ -15,7 +15,94 @@
     "lat": 0,
     "lng": 0,
     "googleMapsUrl": "Google Maps place/search URL when available",
+    "coverage": "Area served",
     "status": "active"
   },
-  "dealers": []
+  "dealers": [
+    {
+      "id": "the-metal-hub-meerut",
+      "name": "The Metal Hub",
+      "authorised": true,
+      "city": "Meerut",
+      "state": "Uttar Pradesh",
+      "region": "North India",
+      "address": "34, College Road, Chhipi Tank, Meerut, Uttar Pradesh - 250001",
+      "phone": "Available on request",
+      "email": "Available on request",
+      "brands": ["Kmatic", "Kmatic Gold", "Kmatic X-45", "Mahagun", "Golden Arc", "Lotus", "Electra", "Koko Tawa Gold", "JK", "Saurabh 6013", "Electra CocoTawa"],
+      "lat": null,
+      "lng": null,
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=The%20Metal%20Hub%2034%20College%20Road%20Chhipi%20Tank%20Meerut",
+      "coverage": "Meerut and surrounding industrial markets",
+      "status": "active"
+    },
+    {
+      "id": "sms-creations-meerut-online",
+      "name": "SMS Creations",
+      "authorised": true,
+      "city": "Meerut",
+      "state": "Uttar Pradesh",
+      "region": "India-wide Online",
+      "address": "101, Raj Heights, Near Ganga Sagar, Ganga Nagar, Meerut - 250001; Warehouse: 251, Rambagh, Mawana, Dist. Meerut - 250401",
+      "phone": "+91-80578-60216",
+      "email": "mayankrajvanshi4@gmail.com",
+      "brands": ["Kmatic", "Kmatic Gold", "Kmatic X-45", "Mahagun", "Golden Arc", "Lotus", "Electra", "Koko Tawa Gold"],
+      "lat": null,
+      "lng": null,
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=SMS%20Creations%20101%20Raj%20Heights%20Ganga%20Nagar%20Meerut",
+      "coverage": "Official online distributorship across India",
+      "status": "active"
+    },
+    {
+      "id": "sajal-krishiyantra-udyog-budaun",
+      "name": "Sajal Krishiyantra Udyog",
+      "authorised": true,
+      "city": "Budaun",
+      "state": "Uttar Pradesh",
+      "region": "North India",
+      "address": "Mohalla Jogipura, Gandhi Ground, Budaun, Uttar Pradesh - 243601",
+      "phone": "Available on request",
+      "email": "Available on request",
+      "brands": ["Kmatic", "Mahagun", "Golden Arc", "Lotus", "Electra"],
+      "lat": null,
+      "lng": null,
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Sajal%20Krishiyantra%20Udyog%20Gandhi%20Ground%20Budaun",
+      "coverage": "Budaun and nearby agricultural / fabrication markets",
+      "status": "active"
+    },
+    {
+      "id": "dd-mittal-hathras",
+      "name": "D. D. Mittal",
+      "authorised": true,
+      "city": "Hathras",
+      "state": "Uttar Pradesh",
+      "region": "North India",
+      "address": "Available on request",
+      "phone": "Available on request",
+      "email": "Available on request",
+      "brands": ["Kmatic", "Mahagun", "Golden Arc", "Lotus", "Electra"],
+      "lat": null,
+      "lng": null,
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=D.%20D.%20Mittal%20Hathras%20welding%20electrodes",
+      "coverage": "Hathras and surrounding area",
+      "status": "active"
+    },
+    {
+      "id": "raj-machinery-store",
+      "name": "Raj Machinery Store",
+      "authorised": true,
+      "city": "Available on request",
+      "state": "Uttar Pradesh",
+      "region": "North India",
+      "address": "Available on request",
+      "phone": "Available on request",
+      "email": "Available on request",
+      "brands": ["Kmatic", "Mahagun", "Golden Arc", "Lotus", "Electra"],
+      "lat": null,
+      "lng": null,
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Raj%20Machinery%20Store%20welding%20electrodes%20Uttar%20Pradesh",
+      "coverage": "Available on request",
+      "status": "active"
+    }
+  ]
 }
