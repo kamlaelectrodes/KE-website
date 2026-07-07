@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const menu = document.querySelector('nav ul');
   const whatsappNumbers = ['919760975890', '919412205763'];
 
-  if (!document.querySelector('link[href="site-enhancements.css?v=1"]')) {
+  if (!document.querySelector('link[href="site-enhancements.css?v=2"]')) {
     const enhancementStyles = document.createElement('link');
     enhancementStyles.rel = 'stylesheet';
-    enhancementStyles.href = 'site-enhancements.css?v=1';
+    enhancementStyles.href = 'site-enhancements.css?v=2';
     document.head.appendChild(enhancementStyles);
   }
 
@@ -108,7 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const existingWhatsappButton = form.querySelector('#waBtn, .wa-fallback');
-    if (!existingWhatsappButton) {
+    if (existingWhatsappButton) {
+      existingWhatsappButton.addEventListener('click', () => openWhatsapp(buildFormSummary(form)));
+    } else {
       const row = form.querySelector('.cta-row') || form;
       const waButton = document.createElement('button');
       waButton.type = 'button';
@@ -127,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.disabled = true;
         submitButton.textContent = 'Sending…';
       }
-      if (status) status.textContent = 'Submitting your enquiry securely…';
+      if (status) status.textContent = 'Submitting your enquiry by email…';
 
       try {
         const response = await fetch(form.action, {
@@ -139,12 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!response.ok || data.success === false) {
           throw new Error(data.message || 'Submission failed');
         }
-        if (status) status.textContent = 'Thank you. Your enquiry has been sent. WhatsApp will open as an additional confirmation channel.';
-        openWhatsapp(buildFormSummary(form));
+        if (status) status.textContent = 'Thank you. Your enquiry has been sent to Kamla Electrodes by email.';
         form.reset();
       } catch (error) {
-        if (status) status.textContent = 'Email submission could not be confirmed. Please use WhatsApp or call our team directly.';
-        openWhatsapp(buildFormSummary(form));
+        if (status) status.textContent = 'Email submission could not be confirmed. Please use the WhatsApp button or call our team directly.';
       } finally {
         if (submitButton) {
           submitButton.disabled = false;
