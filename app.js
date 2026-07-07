@@ -106,7 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!form.querySelector('.form-status')) {
       form.insertAdjacentHTML('beforeend', '<p class="form-status" aria-live="polite"></p>');
     }
-    if (!form.querySelector('.wa-fallback')) {
+
+    const existingWhatsappButton = form.querySelector('#waBtn, .wa-fallback');
+    if (!existingWhatsappButton) {
       const row = form.querySelector('.cta-row') || form;
       const waButton = document.createElement('button');
       waButton.type = 'button';
