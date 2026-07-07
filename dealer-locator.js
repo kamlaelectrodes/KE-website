@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dealer.state,
     dealer.region,
     dealer.address,
+    dealer.coverage,
     Array.isArray(dealer.brands) ? dealer.brands.join(' ') : ''
   ].map(normalize).join(' ');
 
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const phone = dealer.phone || 'Available on request';
     const email = dealer.email || 'Available on request';
     const address = dealer.address || 'Available on request';
+    const coverage = dealer.coverage || 'Available on request';
 
     return `
       <article class="card dealer-card">
@@ -55,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ${distance !== null ? `<span class="distance">${distance.toFixed(1)} km</span>` : ''}
         </div>
         <p class="muted"><strong>Location:</strong> ${[dealer.city, dealer.state].filter(Boolean).join(', ') || 'Available on request'}</p>
+        <p class="muted"><strong>Coverage:</strong> ${coverage}</p>
         <p class="muted"><strong>Address:</strong> ${address}</p>
         <p class="muted"><strong>Phone:</strong> ${phone}<br><strong>Email:</strong> ${email}</p>
         <p class="muted"><strong>Products:</strong> ${brands}</p>
@@ -104,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(data => {
       dealers = Array.isArray(data.dealers) ? data.dealers : [];
       status.textContent = dealers.length
-        ? `Dealer list last updated: ${data.lastUpdated || 'Available on request'}.`
+        ? 'Search by city, state, product brand, or use your current location to find available authorised dealer entries.'
         : 'Dealer list is being updated. You can still send an enquiry for your area.';
       render(dealers);
     })
