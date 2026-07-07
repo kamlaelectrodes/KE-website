@@ -1,0 +1,205 @@
+/* Mobile/menu usability fixes loaded by app.js */
+.nav-toggle { display: none !important; }
+.nav-actions { flex-wrap: wrap; }
+.site-menu-button {
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #151b28, #7a0000);
+  color: #fff;
+  padding: 10px 14px;
+  font-weight: 900;
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(122,0,0,0.2);
+}
+.site-menu-button:hover { transform: translateY(-1px); }
+.ke-rim {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.58rem;
+  letter-spacing: -0.5px;
+  color: #fff;
+  background:
+    radial-gradient(circle, #7a0000 0 38%, transparent 39%),
+    repeating-conic-gradient(#fff 0deg 7deg, transparent 7deg 14deg),
+    #b30000;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.7);
+}
+.gear-menu-button, .gear-overlay { display: none !important; }
+.site-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;
+  background: rgba(9, 13, 20, 0.62);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(18px, 4vw, 40px);
+}
+.site-menu-overlay.is-open { display: block; }
+.site-menu-close {
+  position: fixed;
+  right: 22px;
+  top: 22px;
+  z-index: 1001;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #8b0000;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.2);
+}
+.site-menu-panel {
+  position: relative;
+  max-width: 980px;
+  min-height: min(680px, calc(100vh - 80px));
+  margin: 0 auto;
+  border-radius: 32px;
+  overflow: hidden;
+  background:
+    radial-gradient(560px 560px at 86% 50%, rgba(179,0,0,0.9), rgba(122,0,0,0.72) 48%, transparent 49%),
+    linear-gradient(135deg, rgba(255,255,255,0.97), rgba(255,248,248,0.92));
+  box-shadow: 0 40px 120px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.42);
+}
+.site-menu-rim {
+  position: absolute;
+  right: -170px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #8b0000;
+  font-weight: 900;
+  font-size: 2.2rem;
+  background:
+    radial-gradient(circle, #fff 0 31%, #f7e8e8 31.5% 38%, transparent 38.5%),
+    repeating-conic-gradient(#fff 0deg 6deg, transparent 6deg 12deg),
+    radial-gradient(circle, #b30000 0 58%, #8b0000 59% 100%);
+  opacity: 0.98;
+  filter: drop-shadow(0 20px 50px rgba(122,0,0,0.35));
+}
+.site-menu-rim::before {
+  content: "";
+  position: absolute;
+  inset: 78px;
+  border-radius: 50%;
+  border: 18px solid rgba(255,255,255,0.9);
+}
+.site-menu-rim span { position: relative; z-index: 1; }
+.site-menu-content {
+  position: relative;
+  z-index: 2;
+  width: min(620px, 70%);
+  padding: clamp(28px, 5vw, 58px);
+}
+.site-menu-kicker {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-weight: 900;
+  color: #8b0000;
+  font-size: 0.8rem;
+}
+.site-menu-content h2 { margin-bottom: 20px; }
+.site-menu-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+  padding-right: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+.site-menu-links a {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 12px 15px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(122,0,0,0.92), rgba(179,0,0,0.82));
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 12px 26px rgba(122,0,0,0.16);
+  font-weight: 900;
+  text-decoration: none;
+}
+.site-menu-links a:hover { transform: translateY(-1px); background: linear-gradient(135deg, #8b0000, #c20000); }
+.helper-panel a { font-weight: 900; }
+.helper-answer a { display: inline-block; margin-top: 8px; }
+@media (min-width: 1025px) {
+  nav .nav-toggle { display: none !important; }
+}
+@media (max-width: 1024px) {
+  nav { align-items: center; }
+  nav ul { display: none !important; }
+  .nav-actions { margin-left: auto; }
+  .site-menu-panel {
+    min-height: auto;
+    max-height: none;
+  }
+  .site-menu-content { width: min(620px, 72%); }
+}
+@media (max-width: 760px) {
+  header .container { padding: 0 14px; }
+  nav { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 18px 0; }
+  .brand-link { justify-content: flex-start; }
+  .nav-actions { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; margin-left: 0; }
+  .nav-actions .button-primary { width: 100%; }
+  .site-menu-button { justify-content: center; padding: 10px 13px; }
+  .ke-rim { display: none; }
+  .site-menu-overlay { padding: 14px; }
+  .site-menu-close { width: 42px; height: 42px; right: 16px; top: 16px; }
+  .site-menu-panel {
+    min-height: calc(100vh - 28px);
+    border-radius: 24px;
+    background:
+      radial-gradient(360px 360px at 100% 42%, rgba(179,0,0,0.82), rgba(122,0,0,0.64) 50%, transparent 51%),
+      linear-gradient(135deg, rgba(255,255,255,0.97), rgba(255,248,248,0.94));
+  }
+  .site-menu-rim {
+    right: -210px;
+    width: 390px;
+    height: 390px;
+    opacity: 0.7;
+  }
+  .site-menu-rim::before { inset: 60px; border-width: 14px; }
+  .site-menu-content {
+    width: 100%;
+    padding: 54px 18px 24px;
+  }
+  .site-menu-links {
+    grid-template-columns: 1fr;
+    max-height: calc(100vh - 190px);
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .site-menu-links a {
+    min-height: 48px;
+    width: min(100%, 78vw);
+  }
+  .floating-helper { right: 14px; bottom: 14px; }
+  .helper-panel { max-height: min(70vh, 520px); overflow-y: auto; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .site-menu-overlay { padding: 10px 14px; }
+  .site-menu-panel { min-height: auto; }
+  .site-menu-content { padding: 22px 18px; width: 74%; }
+  .site-menu-content h2 { margin-bottom: 10px; }
+  .site-menu-links { max-height: calc(100vh - 82px); overflow-y: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-menu-links a { min-height: 42px; padding: 9px 12px; }
+  .site-menu-rim { width: 330px; height: 330px; right: -140px; opacity: 0.72; }
+}
