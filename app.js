@@ -10,7 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
     menuFix.href = 'menu-fixes.css?v=2';
     document.head.appendChild(menuFix);
   }
+  if (!document.querySelector('link[href="content-enhancements.css?v=2"]')) {
+    const contentEnhancements = document.createElement('link');
+    contentEnhancements.rel = 'stylesheet';
+    contentEnhancements.href = 'content-enhancements.css?v=2';
+    document.head.appendChild(contentEnhancements);
+  }
 
+  const pageName = window.location.pathname.split('/').pop() || 'index.html';
   const primaryNav = [
     ['index.html','Home'],
     ['about.html','About'],
@@ -66,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <h2>Site Menu</h2>
         <p class="site-menu-subtext">Navigate product, quality, documentation and distribution support.</p>
         <div class="site-menu-links">
-          ${menuLinks.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
+          ${menuLinks.map(([href,label]) => `<a href="${href}"${href === pageName ? ' class="active" aria-current="page"' : ''}>${label}</a>`).join('')}
         </div>
       </div>
     </div>`;
@@ -92,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (text.includes('Needs final')) notice.textContent = 'Available on request: additional business, technical, compliance, facility, and product information can be shared by the Kamla Electrodes team for relevant enquiries.';
   });
 
-  const pageName = window.location.pathname.split('/').pop() || 'index.html';
   const commercialCopy = {
     'get-a-quote.html': '<div class="commercial-strip"><strong>Direct bulk quotation:</strong> minimum 50 boxes. Pricing is aligned to product specification, quantity, destination, packaging, and current raw-material conditions.</div>',
     'become-a-dealer.html': '<div class="commercial-strip"><strong>Distributorship benchmark:</strong> applicants should be prepared for an estimated minimum purchase capacity of 300 boxes per month, subject to territory, product mix, and commercial alignment.</div>'
@@ -196,6 +202,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!button) return;
     helperAnswer.innerHTML = answers[button.dataset.answer] || 'Please contact Kamla Electrodes for assistance.';
   });
+
+  const backToTop = document.createElement('button');
+  backToTop.className = 'back-to-top';
+  backToTop.type = 'button';
+  backToTop.setAttribute('aria-label', 'Back to top');
+  backToTop.textContent = '↑';
+  document.body.appendChild(backToTop);
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('is-visible', window.scrollY > 520);
+  }, { passive: true });
 
   document.querySelectorAll('nav ul a').forEach((link) => {
     const href = link.getAttribute('href');
