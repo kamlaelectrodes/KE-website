@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const menu = document.querySelector('nav ul');
   const oldMobileToggle = document.querySelector('.nav-toggle');
 
-  if (!document.querySelector('link[href="menu-fixes.css?v=1"]')) {
+  if (!document.querySelector('link[href="menu-fixes.css?v=2"]')) {
     const menuFix = document.createElement('link');
     menuFix.rel = 'stylesheet';
-    menuFix.href = 'menu-fixes.css?v=1';
+    menuFix.href = 'menu-fixes.css?v=2';
     document.head.appendChild(menuFix);
   }
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['index.html','Home'],
     ['about.html','About'],
     ['products.html','Products'],
-    ['dealer-locator.html','Find Dealer'],
+    ['dealer-locator.html','Distribution Map'],
     ['contact.html','Contact']
   ];
   const menuLinks = [
@@ -25,18 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
     ['technical-resources.html','Technical Resources'],
     ['download-product-data.html','Product Data'],
     ['get-a-quote.html','Get a Quote'],
-    ['become-a-dealer.html','Become a Dealer'],
+    ['become-a-dealer.html','Apply for Distributorship'],
     ['faq.html','FAQs'],
     ['privacy-policy.html','Privacy Policy'],
     ['terms-and-conditions.html','Terms & Conditions'],
     ['official-notice.html','Official Notice']
   ];
+  const electrodeBrands = ['Kmatic Gold','Kmatic X-45','Mahagun','Golden Arc','Lotus','Electra','Koko Tawa','JK','Saurabh 6013','Electra CocoTawa','H 600'];
 
   if (menu) {
     menu.innerHTML = primaryNav.map(([href,label]) => `<li><a href="${href}">${label}</a></li>`).join('');
   }
 
-  // Prevent two different mobile menus from appearing. One site menu is enough.
   if (oldMobileToggle) oldMobileToggle.remove();
 
   if (nav) {
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navActions.className = 'nav-actions';
       nav.appendChild(navActions);
     }
-    navActions.innerHTML = '<a class="button button-primary" href="get-a-quote.html">Get a Quote</a><button class="site-menu-button" type="button" aria-label="Open full site menu" aria-expanded="false"><span class="ke-rim" aria-hidden="true">KE</span><span>Menu</span></button>';
+    navActions.innerHTML = '<a class="button button-primary" href="get-a-quote.html">Get a Quote</a><button class="site-menu-button" type="button" aria-label="Open full site menu" aria-expanded="false"><span>Menu</span></button>';
   }
 
   document.querySelectorAll('.topbar .container').forEach((bar) => {
@@ -58,10 +58,13 @@ document.addEventListener('DOMContentLoaded', () => {
   menuOverlay.innerHTML = `
     <button class="site-menu-close" type="button" aria-label="Close menu">×</button>
     <div class="site-menu-panel" role="dialog" aria-modal="true" aria-label="Kamla Electrodes site menu">
-      <div class="site-menu-rim" aria-hidden="true"><span>KE</span></div>
+      <div class="electrode-fan" aria-hidden="true">
+        ${electrodeBrands.map((brand, index) => `<span style="--i:${index};">${brand}</span>`).join('')}
+      </div>
       <div class="site-menu-content">
         <p class="site-menu-kicker">Kamla Electrodes</p>
         <h2>Site Menu</h2>
+        <p class="site-menu-subtext">Navigate product, quality, documentation and distribution support.</p>
         <div class="site-menu-links">
           ${menuLinks.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
         </div>
@@ -92,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pageName = window.location.pathname.split('/').pop() || 'index.html';
   const commercialCopy = {
     'get-a-quote.html': '<div class="commercial-strip"><strong>Direct bulk quotation:</strong> minimum 50 boxes. Pricing is aligned to product specification, quantity, destination, packaging, and current raw-material conditions.</div>',
-    'become-a-dealer.html': '<div class="commercial-strip"><strong>Dealer development benchmark:</strong> applicants should be prepared for an estimated minimum purchase capacity of 300 boxes per month, subject to territory, product mix, and commercial alignment.</div>'
+    'become-a-dealer.html': '<div class="commercial-strip"><strong>Distributorship benchmark:</strong> applicants should be prepared for an estimated minimum purchase capacity of 300 boxes per month, subject to territory, product mix, and commercial alignment.</div>'
   };
   if (commercialCopy[pageName]) {
     const target = document.querySelector('aside.card');
@@ -151,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('footer').forEach((footer) => {
-    footer.innerHTML = `<div class="container footer-grid"><div><img src="logo-gear.png" alt="Kamla Electrodes icon" style="height:38px"><p><strong>Kamla Electrodes (India)</strong><br><span class="muted">Forging Lasting Bonds since 1989.</span></p><p class="muted">Reliable welding electrode manufacturing for dealers, fabricators, procurement teams and industrial buyers across India.</p></div><div><strong>Direct Contacts</strong><p class="muted"><a href="tel:+919412205763">Arun Kumar Mittal</a><br><small>Managing Partner · +91 94122 05763</small><br><br><a href="tel:+919760975890">Mani Mittal</a><br><small>Partner · +91 97609 75890</small><br><br><a href="tel:+918979090370">Purshottam Mittal</a><br><small>Partner · +91 89790 90370</small></p></div><div><strong>Locations</strong><p class="muted"><strong>Head Office:</strong><br>217, Chhipi Tank, Meerut, UP – 250001<br><a href="https://share.google/YtWdOuhbiAWm51v8w" target="_blank" rel="noopener">View Head Office on Google</a></p><p class="muted"><strong>Plant:</strong><br>68, Achronda Industrial Area, Partapur, Meerut, UP<br><a href="https://share.google/cPMTybP8TIPuiNzU8" target="_blank" rel="noopener">View Plant on Google</a></p></div><div><strong>Business Links</strong><p><a href="products.html">Products</a><br><a href="get-a-quote.html">Get a Quote</a><br><a href="dealer-locator.html">Find Dealer</a><br><a href="become-a-dealer.html">Become a Dealer</a><br><a href="technical-resources.html">Technical Resources</a></p><p class="footer-legal"><a href="privacy-policy.html">Privacy Policy</a><br><a href="terms-and-conditions.html">Terms & Conditions</a><br><a href="official-notice.html">Official Notice</a></p></div></div>`;
+    footer.innerHTML = `<div class="container footer-grid"><div><img src="logo-gear.png" alt="Kamla Electrodes icon" style="height:38px"><p><strong>Kamla Electrodes (India)</strong><br><span class="muted">Forging Lasting Bonds since 1989.</span></p><p class="muted">Reliable welding electrode manufacturing for authorised distribution partners, fabricators, procurement teams and industrial buyers across India.</p></div><div><strong>Direct Contacts</strong><p class="muted"><a href="tel:+919412205763">Arun Kumar Mittal</a><br><small>Managing Partner · +91 94122 05763</small><br><br><a href="tel:+919760975890">Mani Mittal</a><br><small>Partner · +91 97609 75890</small><br><br><a href="tel:+918979090370">Purshottam Mittal</a><br><small>Partner · +91 89790 90370</small></p></div><div><strong>Locations</strong><p class="muted"><strong>Head Office:</strong><br>217, Chhipi Tank, Meerut, UP – 250001<br><a href="https://share.google/YtWdOuhbiAWm51v8w" target="_blank" rel="noopener">View Head Office on Google</a></p><p class="muted"><strong>Plant:</strong><br>68, Achronda Industrial Area, Partapur, Meerut, UP<br><a href="https://share.google/cPMTybP8TIPuiNzU8" target="_blank" rel="noopener">View Plant on Google</a></p></div><div><strong>Business Links</strong><p><a href="products.html">Products</a><br><a href="get-a-quote.html">Get a Quote</a><br><a href="dealer-locator.html">Distribution Map</a><br><a href="become-a-dealer.html">Apply for Distributorship</a><br><a href="technical-resources.html">Technical Resources</a></p><p class="footer-legal"><a href="privacy-policy.html">Privacy Policy</a><br><a href="terms-and-conditions.html">Terms & Conditions</a><br><a href="official-notice.html">Official Notice</a></p></div></div>`;
   });
 
   const helper = document.createElement('div');
@@ -163,8 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <p class="muted">Choose a topic. The helper will guide you and then route you to the right page.</p>
       <div class="helper-options">
         <button data-answer="quote">Quote</button>
-        <button data-answer="dealer">Dealer near me</button>
-        <button data-answer="become">Become dealer</button>
+        <button data-answer="distribution">Distribution Map</button>
+        <button data-answer="distributorship">Distributorship</button>
         <button data-answer="products">Products</button>
         <button data-answer="docs">Documents</button>
         <button data-answer="technical">Technical help</button>
@@ -178,9 +181,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const helperAnswer = helper.querySelector('.helper-answer');
   const answers = {
     quote: '<strong>Quote help</strong><br>Step 1: mention product/brand and electrode size.<br>Step 2: mention quantity. Direct quote starts from 50 boxes.<br>Step 3: add delivery city/state. <br><a href="get-a-quote.html">Open quote form →</a>',
-    dealer: '<strong>Dealer support</strong><br>Step 1: search your city or state in the dealer locator.<br>Step 2: use current location if available.<br>Step 3: if not listed, ask the team for dealer availability. <br><a href="dealer-locator.html">Find dealer →</a>',
-    become: '<strong>Dealer enquiry</strong><br>Share business name, area, current product lines and expected monthly capacity. Dealer benchmark is around 300 boxes/month. <br><a href="become-a-dealer.html">Apply as dealer →</a>',
-    products: '<strong>Product help</strong><br>Core active portfolio includes Kmatic, Kmatic Gold, Kmatic X-45, Mahagun, Golden Arc, Lotus, Electra, Koko Tawa Gold, JK, Saurabh 6013 and Electra CocoTawa. <br><a href="products.html">View products →</a>',
+    distribution: '<strong>Distribution support</strong><br>Step 1: search your city or state in the Distribution Map.<br>Step 2: use current location if available.<br>Step 3: if not listed, ask the team for distribution availability. <br><a href="dealer-locator.html">Open Distribution Map →</a>',
+    distributorship: '<strong>Distributorship enquiry</strong><br>Share business name, market area, current product lines and expected monthly capacity. Distributorship benchmark is around 300 boxes/month. <br><a href="become-a-dealer.html">Apply for Distributorship →</a>',
+    products: '<strong>Product help</strong><br>Core active portfolio includes Kmatic Gold, Kmatic X-45, Mahagun, Golden Arc, Lotus, Electra, Koko Tawa Gold, JK, Saurabh 6013 and Electra CocoTawa. H 600 is available on request. <br><a href="products.html">View products →</a>',
     docs: '<strong>Documents</strong><br>TDS, SDS/MSDS, compliance records and product data can be shared through official channels for verified enquiries. <br><a href="download-product-data.html">Product data page →</a>',
     technical: '<strong>Technical support</strong><br>Share base material, electrode size, current setting, welding position and photos if there is a weld issue. <br><a href="technical-resources.html">Technical resources →</a>'
   };
