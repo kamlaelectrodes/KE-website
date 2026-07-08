@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['terms-and-conditions.html','Terms & Conditions'],
     ['official-notice.html','Official Notice']
   ];
-  const electrodeBrands = ['Kmatic Gold','Kmatic X-45','Mahagun','Golden Arc','Lotus','Electra','Koko Tawa','JK','Saurabh 6013','Electra CocoTawa','H 600'];
+  const electrodeBrands = ['Kmatic 6013','Kmatic Gold','Kmatic X-45','Mahagun','Golden Arc','Lotus','Electra','Koko Tawa','JK','Saurabh 6013','Electra CocoTawa','Kmatic H 600'];
 
   if (menu) {
     menu.innerHTML = primaryNav.map(([href,label]) => `<li><a href="${href}">${label}</a></li>`).join('');
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     quote: '<strong>Quote help</strong><br>Step 1: mention product/brand and electrode size.<br>Step 2: mention quantity. Direct quote starts from 50 boxes.<br>Step 3: add delivery city/state. <br><a href="get-a-quote.html">Open quote form →</a>',
     distribution: '<strong>Distribution support</strong><br>Step 1: search your city or state in the Distribution Map.<br>Step 2: use current location if available.<br>Step 3: if not listed, ask the team for distribution availability. <br><a href="dealer-locator.html">Open Distribution Map →</a>',
     distributorship: '<strong>Distributorship enquiry</strong><br>Share business name, market area, current product lines and expected monthly capacity. Distributorship benchmark is around 300 boxes/month. <br><a href="become-a-dealer.html">Apply for Distributorship →</a>',
-    products: '<strong>Product help</strong><br>Core active portfolio includes Kmatic Gold, Kmatic X-45, Mahagun, Golden Arc, Lotus, Electra, Koko Tawa Gold, JK, Saurabh 6013 and Electra CocoTawa. H 600 is available on request. <br><a href="products.html">View products →</a>',
+    products: '<strong>Product help</strong><br>Core active portfolio includes Kmatic 6013, Kmatic Gold, Kmatic X-45, Mahagun, Golden Arc, Lotus, Electra, Koko Tawa Gold, JK, Saurabh 6013 and Electra CocoTawa. Kmatic H 600 is available on request. <br><a href="products.html">View products →</a>',
     docs: '<strong>Documents</strong><br>TDS, SDS/MSDS, compliance records and product data can be shared through official channels for verified enquiries. <br><a href="download-product-data.html">Product data page →</a>',
     technical: '<strong>Technical support</strong><br>Share base material, electrode size, current setting, welding position and photos if there is a weld issue. <br><a href="technical-resources.html">Technical resources →</a>'
   };
