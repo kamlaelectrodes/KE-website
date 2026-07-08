@@ -10,10 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     menuFix.href = 'menu-fixes.css?v=2';
     document.head.appendChild(menuFix);
   }
-  if (!document.querySelector('link[href="content-enhancements.css?v=2"]')) {
+  if (!document.querySelector('link[href="ke-assets.css?v=1"]')) {
+    const assetStyles = document.createElement('link');
+    assetStyles.rel = 'stylesheet';
+    assetStyles.href = 'ke-assets.css?v=1';
+    document.head.appendChild(assetStyles);
+  }
+  if (!document.querySelector('link[href="content-enhancements.css?v=4"]')) {
     const contentEnhancements = document.createElement('link');
     contentEnhancements.rel = 'stylesheet';
-    contentEnhancements.href = 'content-enhancements.css?v=2';
+    contentEnhancements.href = 'content-enhancements.css?v=4';
     document.head.appendChild(contentEnhancements);
   }
 
