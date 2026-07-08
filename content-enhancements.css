@@ -1,0 +1,31 @@
+.detail-nav .card { display:block; text-decoration:none; color:inherit; }
+.detail-nav .card:hover h3 { color: var(--brand); }
+.deep-section { scroll-margin-top: 120px; }
+.usecase-list { display:grid; gap:10px; margin-top:14px; }
+.usecase-list li { background:#fff; border:1px solid var(--line); border-radius:12px; padding:11px 13px; }
+.source-note { font-size:0.86rem; color:#6b7280; margin-top:16px; }
+.process-flow { display:grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap:12px; margin-top:20px; }
+.process-step { position:relative; padding:16px; border-radius:14px; background:linear-gradient(135deg,#fff,#fff8f8); border:1px solid #f0d3d3; box-shadow:0 12px 28px rgba(17,24,39,0.06); }
+.process-step::after { content:'→'; position:absolute; right:-13px; top:50%; transform:translateY(-50%); color:var(--brand); font-weight:900; }
+.process-step:last-child::after { display:none; }
+.process-step strong { display:block; color:#111827; }
+.electrode-diagram { position:relative; min-height:190px; border-radius:18px; background:linear-gradient(135deg,#f8fafc,#fff8f8); border:1px solid var(--line); overflow:hidden; padding:26px; }
+.electrode-rod { position:absolute; left:8%; right:8%; top:48%; height:34px; border-radius:999px; background:linear-gradient(90deg,#2e333d 0 16%,#f7f7f7 16.5% 68%,#b30000 68.5% 100%); box-shadow:inset 0 2px 6px rgba(0,0,0,0.16),0 18px 40px rgba(17,24,39,0.12); }
+.electrode-label { position:absolute; font-weight:800; font-size:0.9rem; color:#334155; }
+.electrode-label.core { left:10%; top:28%; }
+.electrode-label.coating { left:42%; bottom:24%; }
+.electrode-label.brand { right:9%; top:28%; color:var(--brand); }
+.chart-card { min-height:260px; }
+.bar-chart { display:grid; gap:11px; margin-top:18px; }
+.bar-row { display:grid; grid-template-columns:130px 1fr; gap:12px; align-items:center; }
+.bar { height:18px; border-radius:999px; background:#eef2f7; overflow:hidden; }
+.bar span { display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,var(--brand),#ff6a3d); }
+.weld-assembly { position:relative; height:220px; border-radius:18px; border:1px solid var(--line); background:linear-gradient(180deg,#f8fafc,#fff); overflow:hidden; }
+.plate { position:absolute; height:44px; width:43%; background:linear-gradient(135deg,#c9d0da,#eef2f7); border:1px solid #aeb7c6; bottom:60px; }
+.plate.left { left:8%; transform:skewY(-8deg); }
+.plate.right { right:8%; transform:skewY(8deg); }
+.weld-bead { position:absolute; left:44%; bottom:66px; width:12%; height:55px; border-radius:50%; background:radial-gradient(circle,#ffb15a 0 18%,#c44 19% 42%,#5b1a1a 43% 100%); filter:blur(0.2px); }
+.rich-bg { position:relative; overflow:hidden; }
+.rich-bg::after { content:''; position:absolute; inset:auto -8% -60px auto; width:460px; height:260px; opacity:0.16; background:radial-gradient(circle at 10% 60%, #ffbd73, transparent 18%), repeating-linear-gradient(128deg,rgba(179,0,0,0.36) 0 6px, transparent 6px 18px); transform:skewX(-12deg); pointer-events:none; }
+@media(max-width:1024px){ .process-flow{grid-template-columns:repeat(3,minmax(0,1fr));}.process-step::after{display:none;} }
+@media(max-width:720px){ .process-flow{grid-template-columns:1fr;} .bar-row{grid-template-columns:1fr;} .electrode-diagram{min-height:220px;} }
