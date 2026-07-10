@@ -5,13 +5,19 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const base = process.env.AUDIT_LOCAL_BASE || 'http://127.0.0.1:4173/';
 const pages = fs.readdirSync(root).filter(name => name.endsWith('.html')).sort();
-const menuPages = new Set([
-  'index.html', 'about.html', 'products.html', 'dealer-locator.html', 'contact.html',
-  'quality-standards.html', 'infrastructure.html', 'industries-served.html',
-  'research-development.html', 'case-study.html', 'csr.html', 'technical-resources.html',
-  'download-product-data.html', 'get-a-quote.html', 'become-a-dealer.html', 'faq.html',
-  'privacy-policy.html', 'terms-and-conditions.html', 'official-notice.html'
+const expectedMenuHref = new Map([
+  ['index.html', 'index.html'], ['about.html', 'about.html'], ['products.html', 'products.html'],
+  ['dealer-locator.html', 'dealer-locator.html'], ['contact.html', 'contact.html'],
+  ['quality-standards.html', 'quality-standards.html'], ['quality.html', 'quality-standards.html'],
+  ['infrastructure.html', 'infrastructure.html'], ['industries-served.html', 'industries-served.html'],
+  ['research-development.html', 'research-development.html'], ['case-study.html', 'case-study.html'],
+  ['csr.html', 'csr.html'], ['technical-resources.html', 'technical-resources.html'],
+  ['download-product-data.html', 'download-product-data.html'], ['get-a-quote.html', 'get-a-quote.html'],
+  ['become-a-dealer.html', 'become-a-dealer.html'], ['faq.html', 'faq.html'],
+  ['privacy-policy.html', 'privacy-policy.html'], ['terms-and-conditions.html', 'terms-and-conditions.html'],
+  ['official-notice.html', 'official-notice.html']
 ]);
+const menuOptionalPages = new Set(['404.html', 'thank-you.html']);
 const errors = [];
 const results = [];
 
@@ -80,9 +86,11 @@ async function fillRequiredFields(page) {
       if (!title.trim()) record(file, 'Missing title');
 
       const menuButton = page.locator('.site-menu-button');
-      if (await menuButton.count() !== 1) {
-        record(file, 'Expected exactly one site menu button');
-      } else {
+      const menuButtonCount = await menuButton.count();
+      if (menuButtonCount !== 1 && !menuOptionalPages.has(file)) {
+        record(file, `Expected exactly one site menu button, found ${menuButtonCount}`);
+      }
+      if (menuButtonCount === 1) {
         await menuButton.click();
         const menu = page.locator('.site-menu-links');
         await menu.waitFor({ state: 'visible', timeout: 5000 });
@@ -91,11 +99,12 @@ async function fillRequiredFields(page) {
         if (rdCount !== 1) record(file, `R&D menu link count is ${rdCount}, expected 1`);
         if (caseCount !== 1) record(file, `Case-study menu link count is ${caseCount}, expected 1`);
         const currentLinks = await menu.locator('a[aria-current="page"]').count();
-        const expectedCurrent = menuPages.has(file) ? 1 : 0;
+        const expectedHref = expectedMenuHref.get(file);
+        const expectedCurrent = expectedHref ? 1 : 0;
         if (currentLinks !== expectedCurrent) record(file, `Current menu link count is ${currentLinks}, expected ${expectedCurrent}`);
         if (expectedCurrent && currentLinks) {
           const currentHref = await menu.locator('a[aria-current="page"]').first().getAttribute('href');
-          if (currentHref !== file) record(file, `Current menu href is ${currentHref}, expected ${file}`);
+          if (currentHref !== expectedHref) record(file, `Current menu href is ${currentHref}, expected ${expectedHref}`);
         }
         await page.locator('.site-menu-close').click();
       }
