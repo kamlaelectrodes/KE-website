@@ -6,17 +6,42 @@ document.addEventListener('DOMContentLoaded', () => {
     email: 'contact@kamlaelectrodes.com'
   };
 
-  /* Use real standalone WebP files rather than oversized CSS data URIs. */
-  document.querySelectorAll('.facility-photo.plant-photo').forEach(photo => {
-    photo.style.backgroundImage = "url('plant-partapur.webp')";
-    photo.style.backgroundPosition = 'center';
-    photo.style.backgroundSize = 'cover';
-  });
-  document.querySelectorAll('.facility-photo.office-photo').forEach(photo => {
-    photo.style.backgroundImage = "url('head-office-chhipi-tank.webp')";
-    photo.style.backgroundPosition = 'center 22%';
-    photo.style.backgroundSize = 'cover';
-  });
+  /* Replace every facility placeholder or legacy hydrated JPEG with the standalone WebP asset. */
+  const enforceFacilityWebP = () => {
+    document.querySelectorAll('.plant-photo').forEach(photo => {
+      if (photo.tagName === 'IMG') {
+        if (!photo.src.endsWith('/plant-partapur.webp')) photo.src = 'plant-partapur.webp';
+        photo.width = 1000;
+        photo.height = 308;
+        photo.loading = photo.closest('.home-facility') ? 'eager' : 'lazy';
+        photo.decoding = 'async';
+      } else {
+        photo.style.backgroundImage = "url('plant-partapur.webp')";
+        photo.style.backgroundPosition = 'center';
+        photo.style.backgroundSize = 'cover';
+        photo.style.backgroundRepeat = 'no-repeat';
+      }
+      photo.classList.remove('photo-load-failed');
+    });
+    document.querySelectorAll('.office-photo').forEach(photo => {
+      if (photo.tagName === 'IMG') {
+        if (!photo.src.endsWith('/head-office-chhipi-tank.webp')) photo.src = 'head-office-chhipi-tank.webp';
+        photo.width = 480;
+        photo.height = 711;
+        photo.loading = 'lazy';
+        photo.decoding = 'async';
+      } else {
+        photo.style.backgroundImage = "url('head-office-chhipi-tank.webp')";
+        photo.style.backgroundPosition = 'center 22%';
+        photo.style.backgroundSize = 'cover';
+        photo.style.backgroundRepeat = 'no-repeat';
+      }
+      photo.classList.remove('photo-load-failed');
+    });
+  };
+  enforceFacilityWebP();
+  window.addEventListener('load', enforceFacilityWebP, { once: true });
+  [100, 500, 1200].forEach(delay => window.setTimeout(enforceFacilityWebP, delay));
 
   /* Keep user-facing terminology at distribution-partner level. */
   document.querySelectorAll('a[href="become-a-dealer.html"]').forEach(link => {
