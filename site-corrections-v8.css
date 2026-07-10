@@ -49,17 +49,31 @@ html body .facility-photo.office-photo::before{background-image:none!important;}
   .section.alt{background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(5,8,13,.15))!important;}
   .section h1,.section h2,.section h3{color:#fff!important;}
   .section p,.section li,.section .muted,.section .lead{color:#cbd4e1!important;}
+  .card,.callout,.faq-item,.csr-principle,.process-detail,.industry-example,.mini-card,.shared-product-reference,.reference-item,.quote-terms .mini-card{
+    background:linear-gradient(145deg,#202937,#171d28)!important;
+    border-color:rgba(225,232,242,.18)!important;
+    color:#eef3f8!important;
+  }
+  .card h1,.card h2,.card h3,.callout h1,.callout h2,.callout h3,.faq-item h2,.csr-principle h3,.process-detail h3,.industry-example strong,.mini-card strong,.reference-item strong{color:#fff!important;}
+  .card p,.card li,.callout p,.callout li,.faq-item p,.csr-principle p,.process-detail p,.industry-example p,.mini-card p,.reference-item{color:#cbd4e1!important;}
   .badge{color:#ffadad!important;background:rgba(219,45,53,.14)!important;border-color:rgba(255,128,128,.36)!important;}
   .capability-panel{
     background:linear-gradient(145deg,#222b39,#2b151b)!important;
     border-color:rgba(255,118,118,.25)!important;
     box-shadow:0 28px 72px rgba(0,0,0,.4)!important;
   }
-  .capability-panel h2,.capability-panel strong{color:#fff!important;}
+  .capability-panel h2,.capability-panel h3,.capability-panel strong{color:#fff!important;}
   .capability-panel p,.capability-panel li{color:#d4dce7!important;}
   .capability-proof>div{background:rgba(255,255,255,.055)!important;border-color:rgba(230,236,245,.18)!important;color:#eef3f8!important;}
   .national-enquiry-panel{background:linear-gradient(145deg,#222b39,#2a151b)!important;}
   .editorial-visual{border:1px solid rgba(230,236,245,.18)!important;}
+  input,select,textarea{
+    color:#f8fafc!important;
+    background:#111827!important;
+    border-color:rgba(226,232,240,.25)!important;
+  }
+  input::placeholder,textarea::placeholder{color:#93a1b5!important;}
+  label,legend{color:#eef3f8!important;}
 }
 
 /* Capability disclosure language is evidence-led, not defensive. */
@@ -82,4 +96,4 @@ html body .facility-photo.office-photo::before{background-image:none!important;}
 .rd-step span{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#a9000a;color:#fff;font-weight:900;margin-bottom:10px;}
 @media(max-width:950px){.rd-flow{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:560px){.rd-flow{grid-template-columns:1fr;}}
-@media(prefers-color-scheme:dark){.rd-step{background:#1d2531!important;border-color:rgba(226,233,242,.18)!important;}}
+@media(prefers-color-scheme:dark){.rd-step{background:#1d2531!important;border-color:rgba(226,233,242,.18)!important;}.rd-step h3{color:#fff!important;}.rd-step p{color:#cbd4e1!important;}}
