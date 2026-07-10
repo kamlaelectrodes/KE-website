@@ -1,6 +1,6 @@
 name: Full website audit v9
 
-# Revision 2: utility-page expectations corrected; authorised form checks run independently.
+# Revision 3: authorised live form checks run once on the review build.
 on:
   push:
     branches:
@@ -106,7 +106,7 @@ jobs:
         run: python audit/site_audit.py --live-base https://kamlaelectrodes.com/ --report audit-report.json
 
       - name: Send one real test request through each Web3Forms form
-        if: always() && github.event_name == 'push' && github.ref_name == 'fix/menu-moq-marketing-balance-v9'
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'fix/menu-moq-marketing-balance-v9'
         run: python audit/site_audit.py --live-base https://kamlaelectrodes.com/ --send-forms --report audit-report-with-form-tests.json
 
       - name: Upload audit evidence
