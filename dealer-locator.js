@@ -7,44 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const count = document.getElementById('dealerCount');
   const status = document.getElementById('dealerStatus');
   const empty = document.getElementById('noDealers');
-  const cityCoverage = document.getElementById('cityCoverage');
 
   const companyPhoneDisplay = '+91 94122 05763';
-  const companyPhoneDial = '+919412205763';
-  const companyWhatsApp = '919412205763';
   const companyEmail = 'contact@kamlaelectrodes.com';
-
-  const cityEnquiries = [
-    ['Meerut','Uttar Pradesh','North India'],
-    ['Ghaziabad','Uttar Pradesh','Delhi NCR'],
-    ['Noida & Greater Noida','Uttar Pradesh','Delhi NCR'],
-    ['Delhi NCR','Delhi','North India'],
-    ['Hapur','Uttar Pradesh','North India'],
-    ['Modinagar','Uttar Pradesh','North India'],
-    ['Muzaffarnagar','Uttar Pradesh','North India'],
-    ['Baghpat','Uttar Pradesh','North India'],
-    ['Budaun','Uttar Pradesh','North India'],
-    ['Hathras','Uttar Pradesh','North India'],
-    ['Agra','Uttar Pradesh','North India'],
-    ['Mathura','Uttar Pradesh','North India'],
-    ['Bareilly','Uttar Pradesh','North India'],
-    ['Moradabad','Uttar Pradesh','North India'],
-    ['Lucknow','Uttar Pradesh','Central UP'],
-    ['Kanpur','Uttar Pradesh','Central UP'],
-    ['Prayagraj','Uttar Pradesh','Eastern UP'],
-    ['Varanasi','Uttar Pradesh','Eastern UP'],
-    ['Gorakhpur','Uttar Pradesh','Eastern UP'],
-    ['Dehradun','Uttarakhand','North India'],
-    ['Haridwar','Uttarakhand','North India'],
-    ['Rishikesh','Uttarakhand','North India'],
-    ['Rudrapur','Uttarakhand','North India'],
-    ['Patna','Bihar','East India'],
-    ['Ranchi','Jharkhand','East India'],
-    ['Jamshedpur','Jharkhand','East India'],
-    ['Dhanbad','Jharkhand','East India'],
-    ['Kolkata','West Bengal','East India']
-  ];
-
   let dealers = [];
   let userLocation = null;
 
@@ -87,29 +52,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const dealerCard = dealer => {
     const distance = userLocation ? getDistanceKm(userLocation, dealer) : null;
-    const name = dealer.name || 'Dealer name available on request';
-    const cityState = [dealer.city, dealer.state].filter(Boolean).join(', ') || 'Available on request';
+    const name = dealer.name || 'Dealer details available on request';
+    const cityState = [dealer.city, dealer.state].filter(Boolean).join(', ') || 'Location available on request';
     const mapsUrl = dealer.googleMapsUrl || (dealer.lat && dealer.lng
       ? `https://www.google.com/maps/search/?api=1&query=${dealer.lat},${dealer.lng}`
       : `https://www.google.com/maps/search/${encodeURIComponent(`${name} ${dealer.city || ''} ${dealer.state || ''}`)}`);
-    const brands = Array.isArray(dealer.brands) && dealer.brands.length ? dealer.brands.join(', ') : 'Available on request';
+    const brands = Array.isArray(dealer.brands) && dealer.brands.length ? dealer.brands.join(', ') : 'Product details available on request';
     const phone = dealer.phone || 'Available on request';
     const email = dealer.email || 'Available on request';
     const phoneHref = phone !== 'Available on request' ? cleanPhoneHref(phone) : '';
     const emailMarkup = email !== 'Available on request'
       ? `<a href="mailto:${encodeURIComponent(email)}">${escapeHtml(email)}</a>`
       : escapeHtml(email);
-    const phoneMarkup = phoneHref
-      ? `<a href="${phoneHref}">${escapeHtml(phone)}</a>`
-      : escapeHtml(phone);
+    const phoneMarkup = phoneHref ? `<a href="${phoneHref}">${escapeHtml(phone)}</a>` : escapeHtml(phone);
 
     return `
       <article class="card dealer-card">
         <div class="dealer-title-row">
-          <div>
-            <span class="badge">${dealer.authorised === false ? 'Dealer Listing' : 'Authorised Distribution Partner'}</span>
-            <h3>${escapeHtml(name)}</h3>
-          </div>
+          <div><span class="badge">${dealer.authorised === false ? 'Dealer Listing' : 'Authorised Distribution Partner'}</span><h3>${escapeHtml(name)}</h3></div>
           ${distance !== null ? `<span class="distance">${distance.toFixed(1)} km</span>` : ''}
         </div>
         <p class="muted"><strong>Location:</strong> ${escapeHtml(cityState)}</p>
@@ -134,25 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
       : 'No public authorised entry matched this search.';
   };
 
-  const renderCityDirectory = () => {
-    if (!cityCoverage) return;
-    cityCoverage.innerHTML = cityEnquiries.map(([city, state, region]) => {
-      const subject = `Welding electrode supply enquiry - ${city}, ${state}`;
-      const message = `Hello Kamla Electrodes, I need welding electrode supply guidance for ${city}, ${state}. Please contact me regarding product/brand, size, quantity and the nearest available supply route.`;
-      return `<article class="city-enquiry-card">
-        <span class="badge">City Enquiry Desk</span>
-        <h3>${escapeHtml(city)}</h3>
-        <p>${escapeHtml(state)} · ${escapeHtml(region)}</p>
-        <p>This route connects directly to Kamla Electrodes while verified local distribution details are expanded.</p>
-        <div class="city-enquiry-actions">
-          <a href="tel:${companyPhoneDial}" aria-label="Call Kamla Electrodes for ${escapeHtml(city)}">Call</a>
-          <a href="mailto:${companyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}">Email</a>
-          <a href="https://wa.me/${companyWhatsApp}?text=${encodeURIComponent(message)}" target="_blank" rel="noopener">WhatsApp</a>
-        </div>
-      </article>`;
-    }).join('');
-  };
-
   const search = () => {
     if (!queryInput || !status) return;
     const query = normalize(queryInput.value);
@@ -166,12 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     status.textContent = filtered.length
-      ? 'Showing public distribution entries. Please confirm current stock and authorisation before purchase.'
-      : 'No public authorised entry matched. Use the city enquiry directory below or contact Kamla Electrodes directly.';
+      ? 'Showing current public distribution entries. Confirm stock and commercial terms before purchase.'
+      : 'No public authorised entry matched. Use the national enquiry route for direct product and quotation support.';
     renderDealers(filtered);
   };
-
-  renderCityDirectory();
 
   fetch('data/dealers.json', { cache: 'no-store' })
     .then(response => {
@@ -181,13 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(data => {
       dealers = Array.isArray(data.dealers) ? data.dealers : [];
       if (status) status.textContent = dealers.length
-        ? 'Search by city, state, region or product brand. City enquiry routes remain available below.'
-        : `The public dealer list is being updated. Call ${companyPhoneDisplay} or use the city enquiry directory.`;
+        ? 'Search by location, state, region or product brand.'
+        : `The public dealer list is being updated. Call ${companyPhoneDisplay} or use the national enquiry route.`;
       renderDealers(dealers);
     })
     .catch(() => {
       dealers = [];
-      if (status) status.textContent = `The public dealer list is temporarily unavailable. Call ${companyPhoneDisplay} or use the city enquiry directory.`;
+      if (status) status.textContent = `The public dealer list is temporarily unavailable. Call ${companyPhoneDisplay} or use the national enquiry route.`;
       renderDealers(dealers);
     });
 
@@ -200,14 +139,14 @@ document.addEventListener('DOMContentLoaded', () => {
     userLocation = null;
     status.textContent = dealers.length
       ? 'Showing all current public distribution entries.'
-      : 'The public dealer list is being updated. City enquiry routes remain available below.';
+      : 'The public dealer list is being updated. Use the national enquiry route for direct support.';
     renderDealers(dealers);
   });
 
   locationBtn?.addEventListener('click', () => {
     if (!status) return;
     if (!navigator.geolocation) {
-      status.textContent = 'Location search is not supported by this browser. Search by city/state or use the city directory.';
+      status.textContent = 'Location search is not supported by this browser. Search by state or region instead.';
       return;
     }
     status.textContent = 'Requesting location permission…';
@@ -217,9 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         status.textContent = 'Location accepted. Sorting public entries by approximate distance.';
         search();
       },
-      () => {
-        status.textContent = 'Location permission was not granted. Search by city/state or use the city enquiry directory.';
-      },
+      () => { status.textContent = 'Location permission was not granted. Search by state or region instead.'; },
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 }
     );
   });
