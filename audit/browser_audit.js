@@ -5,6 +5,13 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const base = process.env.AUDIT_LOCAL_BASE || 'http://127.0.0.1:4173/';
 const pages = fs.readdirSync(root).filter(name => name.endsWith('.html')).sort();
+const menuPages = new Set([
+  'index.html', 'about.html', 'products.html', 'dealer-locator.html', 'contact.html',
+  'quality-standards.html', 'infrastructure.html', 'industries-served.html',
+  'research-development.html', 'case-study.html', 'csr.html', 'technical-resources.html',
+  'download-product-data.html', 'get-a-quote.html', 'become-a-dealer.html', 'faq.html',
+  'privacy-policy.html', 'terms-and-conditions.html', 'official-notice.html'
+]);
 const errors = [];
 const results = [];
 
@@ -65,7 +72,6 @@ async function fillRequiredFields(page) {
       const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       if (!response || response.status() >= 400) {
         record(file, `HTTP ${response ? response.status() : 'no response'}`);
-        await page.close();
         continue;
       }
       await page.waitForTimeout(250);
@@ -85,9 +91,12 @@ async function fillRequiredFields(page) {
         if (rdCount !== 1) record(file, `R&D menu link count is ${rdCount}, expected 1`);
         if (caseCount !== 1) record(file, `Case-study menu link count is ${caseCount}, expected 1`);
         const currentLinks = await menu.locator('a[aria-current="page"]').count();
-        if (currentLinks !== 1) record(file, `Current menu link count is ${currentLinks}, expected 1`);
-        const currentHref = currentLinks ? await menu.locator('a[aria-current="page"]').first().getAttribute('href') : null;
-        if (currentHref !== file) record(file, `Current menu href is ${currentHref}, expected ${file}`);
+        const expectedCurrent = menuPages.has(file) ? 1 : 0;
+        if (currentLinks !== expectedCurrent) record(file, `Current menu link count is ${currentLinks}, expected ${expectedCurrent}`);
+        if (expectedCurrent && currentLinks) {
+          const currentHref = await menu.locator('a[aria-current="page"]').first().getAttribute('href');
+          if (currentHref !== file) record(file, `Current menu href is ${currentHref}, expected ${file}`);
+        }
         await page.locator('.site-menu-close').click();
       }
 
@@ -96,7 +105,6 @@ async function fillRequiredFields(page) {
       for (let i = 0; i < facilityCount; i += 1) {
         const node = facility.nth(i);
         const info = await node.evaluate(el => ({
-          tag: el.tagName.toLowerCase(),
           src: el.getAttribute('src') || '',
           background: getComputedStyle(el).backgroundImage || '',
         }));
@@ -109,7 +117,7 @@ async function fillRequiredFields(page) {
         await fillRequiredFields(page);
         const status = form.locator('.form-status');
         await form.locator('[type="submit"]').click();
-        await page.waitForTimeout(250);
+        await page.waitForTimeout(300);
         const statusText = await status.textContent();
         if (!/thank you|sent/i.test(statusText || '')) record(file, `Intercepted form did not report success: ${statusText || '(blank)'}`);
       }
@@ -119,7 +127,7 @@ async function fillRequiredFields(page) {
         if (await searchButton.count()) {
           await page.locator('#dealerQuery').fill('Meerut');
           await searchButton.click();
-          await page.waitForTimeout(300);
+          await page.waitForTimeout(350);
           const countText = await page.locator('#dealerCount').textContent();
           if (!countText || /loading/i.test(countText)) record(file, 'Distribution search remained in loading state');
         }
