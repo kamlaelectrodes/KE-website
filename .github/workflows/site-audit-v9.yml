@@ -1,6 +1,6 @@
 name: Full website audit v9
 
-# Revision 3: authorised live form checks run once on the review build.
+# Revision 4: live form checks use a real browser from the public site origin.
 on:
   push:
     branches:
@@ -105,9 +105,11 @@ jobs:
       - name: Audit static links and live HTTP loading
         run: python audit/site_audit.py --live-base https://kamlaelectrodes.com/ --report audit-report.json
 
-      - name: Send one real test request through each Web3Forms form
+      - name: Send and verify one live-browser test through each public form
         if: always() && github.event_name == 'pull_request' && github.head_ref == 'fix/menu-moq-marketing-balance-v9'
-        run: python audit/site_audit.py --live-base https://kamlaelectrodes.com/ --send-forms --report audit-report-with-form-tests.json
+        env:
+          AUDIT_LIVE_BASE: https://kamlaelectrodes.com/
+        run: node audit/live_form_submit.js
 
       - name: Upload audit evidence
         if: always()
@@ -117,6 +119,7 @@ jobs:
           path: |
             audit-report*.json
             browser-audit-report.json
+            live-form-submission-report.json
             /tmp/ke-site-server.log
           if-no-files-found: warn
           retention-days: 30
