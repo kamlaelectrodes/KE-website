@@ -3,8 +3,9 @@
 @import url('interaction-v3.css?v=1');
 @import url('hygiene-v4.css?v=1');
 @import url('experience-v5.css?v=1');
+@import url('correction-v6.css?v=1');
 
-/* Functional layout rules retained after the full visual redesign. */
+/* Functional layout rules retained after the visual redesign. */
 .scroll-page .section{overflow:visible!important;}
 .dealer-controls{position:sticky!important;top:98px!important;z-index:8;}
 @media(max-width:1024px){.dealer-controls{top:8px!important;}}
@@ -18,6 +19,7 @@ aside.callout,aside.card{height:auto;}
 .expand-card .extra{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--ke-line);}
 .expand-card.is-open{grid-column:span 2;}
 .expand-card.is-open .extra{display:block;}
+.expand-card.is-open .expand-hint{display:none!important;}
 .expand-hint{display:inline-block;margin-top:9px;font-weight:900;color:var(--brand);font-size:.9rem;}
 @media(max-width:760px){.expand-card.is-open{grid-column:auto;}}
 
