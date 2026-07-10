@@ -1,4 +1,4 @@
-@import url('second-pass.css?v=1');
+@import url('second-pass.css?v=2');
 /* KE urgent polish pass: fixed dramatic backdrop, mobile navigation, menu fan, image fallbacks, sticky distribution search */
 body {
   background: linear-gradient(180deg,#ffffff 0%,#fbfcff 48%,#f7f9fc 100%) !important;
@@ -35,8 +35,6 @@ body::after {
 .hero::before, .page-header::before { opacity: .035 !important; }
 .hero::after, .page-header::after { opacity: .11 !important; }
 .card, .callout, form.card { background: rgba(255,255,255,.95); }
-
-/* Image fallback cards: never show empty black panels */
 .asset-card { background: linear-gradient(135deg,#141b29,#7a0000) !important; }
 .asset-card::before {
   background:
@@ -62,8 +60,6 @@ body::after {
 }
 .asset-card.plant::before, .asset-card.office::before { filter: saturate(1.08) contrast(1.02); }
 .asset-card::after { background: linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.68)) !important; }
-
-/* Mobile should not hide the main site routes behind quote-only header */
 .mobile-quick-nav { display:none; }
 @media(max-width:760px){
   .mobile-quick-nav {
@@ -88,8 +84,6 @@ body::after {
   }
   .mobile-quick-nav a.active { color:#fff; background:linear-gradient(135deg,#b30000,#7a0000); border-color:#9a0000; }
 }
-
-/* Menu fan positioning and cleaner rods */
 .electrode-fan { right:-95px !important; bottom:78px !important; width:620px !important; height:620px !important; opacity:.86; }
 .electrode-fan span::before { display:none !important; }
 .electrode-fan span { padding-left:22px !important; }
@@ -104,34 +98,26 @@ body::after {
 @media(max-height:560px) and (orientation:landscape){
   .electrode-fan { right:-200px !important; top:-40px !important; bottom:auto !important; opacity:.22 !important; }
 }
-
-/* Distribution search must stay usable as list grows */
 .scroll-page .section { overflow: visible !important; }
 .dealer-controls { position: sticky !important; top: 98px !important; z-index: 3; }
 @media(max-width:1024px){
   .dealer-controls { position: sticky !important; top: 0 !important; z-index: 8; }
 }
-
-/* Legal/support sidebars should not stretch into blank slabs */
 .split { align-items:start; }
 aside.callout, aside.card { height:auto; }
 .legal-support-stack { display:grid; gap:12px; margin-top:16px; }
 .legal-support-stack .mini-card { padding:14px; border-radius:12px; background:#fff; border:1px solid var(--line); }
-
-/* Expandable content */
 .expand-card { cursor:pointer; }
 .expand-card .extra { display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
 .expand-card.is-open { grid-column: span 2; background:linear-gradient(135deg,#fff,#fff8f8); }
 .expand-card.is-open .extra { display:block; }
 .expand-hint { display:inline-block; margin-top:8px; font-weight:900; color:var(--brand); font-size:.9rem; }
 @media(max-width:760px){ .expand-card.is-open { grid-column: auto; } }
-
 .product-layout { display:grid; grid-template-columns:1fr; gap:18px; }
 .product-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
 .product-card-grid .expand-card.is-open { grid-column: span 2; }
 @media(max-width:1024px){ .product-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
 @media(max-width:760px){ .product-card-grid{grid-template-columns:1fr;} .product-card-grid .expand-card.is-open{grid-column:auto;} }
-
 .spec-table { width:100%; border-collapse:collapse; font-size:.92rem; }
 .spec-table th,.spec-table td { padding:9px; border-bottom:1px solid var(--line); }
 .safety-list li { margin-bottom:8px; }
