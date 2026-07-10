@@ -1,0 +1,18 @@
+{
+  "name": "Kamla Electrodes",
+  "short_name": "Kamla Electrodes",
+  "description": "Welding electrode manufacturing, product information, distribution discovery and buyer support.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#111722",
+  "theme_color": "#b30000",
+  "icons": [
+    {
+      "src": "/logo-gear.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
