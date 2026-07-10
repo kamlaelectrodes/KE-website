@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-07-10T20-13-51-731Z",
+  "base": "https://kamlaelectrodes.com/",
+  "submissions": [
+    {
+      "file": "become-a-dealer.html",
+      "subject": "[TEST] KE Website Audit — become-a-dealer.html — 2026-07-10T20-13-51-731Z",
+      "accepted": false,
+      "responseStatus": null,
+      "responseBody": "",
+      "statusText": "",
+      "finalUrl": "https://kamlaelectrodes.com/become-a-dealer.html?qa=2026-07-10T20-13-51-731Z",
+      "error": "page.waitForResponse: Timeout 45000ms exceeded while waiting for event \"response\"\n    at /home/runner/work/KE-website/KE-website/audit/live_form_submit.js:76:36"
+    },
+    {
+      "file": "contact.html",
+      "subject": "[TEST] KE Website Audit — contact.html — 2026-07-10T20-13-51-731Z",
+      "accepted": false,
+      "responseStatus": null,
+      "responseBody": "",
+      "statusText": "",
+      "finalUrl": "https://kamlaelectrodes.com/contact.html?qa=2026-07-10T20-13-51-731Z",
+      "error": "page.waitForResponse: Timeout 45000ms exceeded while waiting for event \"response\"\n    at /home/runner/work/KE-website/KE-website/audit/live_form_submit.js:76:36"
+    },
+    {
+      "file": "get-a-quote.html",
+      "subject": "[TEST] KE Website Audit — get-a-quote.html — 2026-07-10T20-13-51-731Z",
+      "accepted": false,
+      "responseStatus": null,
+      "responseBody": "",
+      "statusText": "",
+      "finalUrl": "https://kamlaelectrodes.com/get-a-quote.html?qa=2026-07-10T20-13-51-731Z",
+      "error": "page.waitForResponse: Timeout 45000ms exceeded while waiting for event \"response\"\n    at /home/runner/work/KE-website/KE-website/audit/live_form_submit.js:76:36"
+    }
+  ]
+}
