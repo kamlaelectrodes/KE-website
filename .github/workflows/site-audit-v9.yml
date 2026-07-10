@@ -1,0 +1,121 @@
+name: Full website audit v9
+
+on:
+  push:
+    branches:
+      - fix/menu-moq-marketing-balance-v9
+      - main
+    paths:
+      - '.github/workflows/site-audit-v9.yml'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site-audit-v9-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Standardise shared script cache version
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          changed = []
+          for page in Path('.').glob('*.html'):
+              original = page.read_text(encoding='utf-8')
+              updated = original.replace('app.js?v=11', 'app.js?v=12')
+              updated = updated.replace('<script src="site-v8.js?v=1"></script>', '')
+              if updated != original:
+                  page.write_text(updated, encoding='utf-8')
+                  changed.append(page.name)
+          print('Normalised pages:', ', '.join(changed) if changed else 'none')
+          PY
+
+          if [[ -n "$(git status --porcelain -- '*.html')" ]]; then
+            git config user.name 'kamlaelectrodes-bot'
+            git config user.email 'actions@users.noreply.github.com'
+            git add -- '*.html'
+            git commit -m 'Standardise sitewide app cache version for menu fixes'
+            if [[ "${GITHUB_EVENT_NAME}" == "push" && "${GITHUB_REF_NAME}" == "fix/menu-moq-marketing-balance-v9" ]]; then
+              git push origin "HEAD:${GITHUB_REF_NAME}"
+            fi
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python audit dependencies
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install browser audit dependencies
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-save playwright@1.52.0
+          npx playwright install --with-deps chromium
+
+      - name: Start local website server
+        shell: bash
+        run: |
+          python -m http.server 4173 > /tmp/ke-site-server.log 2>&1 &
+          echo $! > /tmp/ke-site-server.pid
+          for attempt in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/ke-site-server.log
+          exit 1
+
+      - name: Audit every page in mobile dark mode
+        env:
+          AUDIT_LOCAL_BASE: http://127.0.0.1:4173/
+        run: node audit/browser_audit.js
+
+      - name: Wait for the merged site deployment
+        if: github.event_name == 'push' && github.ref_name == 'main'
+        run: sleep 120
+
+      - name: Audit static links and live HTTP loading
+        run: python audit/site_audit.py --live-base https://kamlaelectrodes.com/ --report audit-report.json
+
+      - name: Send one real test request through each Web3Forms form
+        if: github.event_name == 'push' && github.ref_name == 'fix/menu-moq-marketing-balance-v9'
+        run: python audit/site_audit.py --live-base https://kamlaelectrodes.com/ --send-forms --report audit-report-with-form-tests.json
+
+      - name: Upload audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ke-site-audit-${{ github.run_id }}
+          path: |
+            audit-report*.json
+            browser-audit-report.json
+            /tmp/ke-site-server.log
+          if-no-files-found: warn
+          retention-days: 30
