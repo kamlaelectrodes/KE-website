@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['official-notice.html','Official Notice']
   ];
   const allMenuLinks = [...primaryNav, ...secondaryNav];
-  const electrodeBrands = ['Kmatic 6013','Kmatic Gold','Kmatic X-45','Mahagun','Golden Arc','Lotus','Electra','Koko Tawa','JK','Saurabh 6013','Electra CocoTawa','Kmatic H 600'];
+  const electrodeBrands = ['Kmatic 6013','Kmatic Gold','Kmatic X-45','Mahagun','Golden Arc','Lotus','Electra','Koko Tawa Gold','JK','Saurabh 6013','Electra CocoTawa','Kmatic H 600'];
 
   const loadCss = (href) => {
     if (!document.querySelector(`link[href="${href}"]`)) {
@@ -35,7 +35,51 @@ document.addEventListener('DOMContentLoaded', () => {
   loadCss('menu-fixes.css?v=3');
   loadCss('ke-assets.css?v=1');
   loadCss('content-enhancements.css?v=5');
-  loadCss('site-fixes.css?v=1');
+  loadCss('site-fixes.css?v=4');
+  loadCss('photo-layout-fix.css?v=2');
+  loadCss('hygiene-v4.css?v=1');
+
+  /* Convert the embedded facility-photo CSS variables into real img elements.
+     This avoids mobile Safari background-image failures while retaining CSS fallbacks. */
+  const unwrapCssUrl = (value) => {
+    const trimmed = String(value || '').trim();
+    const match = trimmed.match(/^url\((['"]?)([\s\S]*)\1\)$/);
+    return match ? match[2] : '';
+  };
+  const hydrateFacilityPhotos = () => {
+    const rootStyle = getComputedStyle(document.documentElement);
+    const photoTypes = [
+      { className: 'plant-photo', variable: '--ke-plant-image', width: 1200, height: 370 },
+      { className: 'office-photo', variable: '--ke-office-image', width: 720, height: 1067 }
+    ];
+    photoTypes.forEach(({ className, variable, width, height }) => {
+      const source = unwrapCssUrl(rootStyle.getPropertyValue(variable));
+      if (!source) return;
+      document.querySelectorAll(`.facility-photo.${className}`).forEach((holder) => {
+        if (holder.tagName === 'IMG' || holder.dataset.hydrating === 'true') return;
+        holder.dataset.hydrating = 'true';
+        const image = new Image();
+        image.className = `${holder.className} ke-hydrated-photo`;
+        image.alt = holder.getAttribute('aria-label') || (className === 'plant-photo'
+          ? 'Kamla Electrodes manufacturing plant at Partapur, Meerut'
+          : 'Kamla Complex head office at Chhipi Tank, Meerut');
+        image.width = width;
+        image.height = height;
+        image.decoding = 'async';
+        image.loading = holder.closest('.home-facility') ? 'eager' : 'lazy';
+        if (holder.closest('.home-facility')) image.fetchPriority = 'high';
+        image.onload = () => holder.replaceWith(image);
+        image.onerror = () => {
+          delete holder.dataset.hydrating;
+          holder.classList.add('photo-load-failed');
+        };
+        image.src = source;
+      });
+    });
+  };
+  hydrateFacilityPhotos();
+  window.addEventListener('load', hydrateFacilityPhotos, { once: true });
+  window.setTimeout(hydrateFacilityPhotos, 650);
 
   const nav = document.querySelector('nav');
   const menu = document.querySelector('nav ul');
