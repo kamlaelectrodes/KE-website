@@ -5,12 +5,24 @@
   --ke-webp-industry:url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&fm=webp&w=1200&q=72');
   --ke-webp-structure:url('https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&fm=webp&w=1200&q=72');
   --ke-webp-logistics:url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&fm=webp&w=1200&q=72');
+  --ke-webp-agri:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&fm=webp&w=1200&q=72');
+  --ke-webp-maintenance:url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&fm=webp&w=1200&q=72');
 }
 
 img{max-width:100%;height:auto;}
-.stock-visual img,.ke-hydrated-photo{display:block;width:100%;object-fit:cover;}
-.stock-visual img{max-height:560px;}
+.stock-visual img,.industry-visual img,.ke-hydrated-photo{display:block;width:100%;object-fit:cover;}
+.stock-visual img,.industry-visual img{max-height:560px;}
 .visual-credit{display:none!important;}
+
+/* Force smaller WebP delivery for all CSS-driven editorial photography. */
+.visual-path-card.products-path{--visual-image:var(--ke-webp-welding)!important;}
+.visual-path-card.industries-path{--visual-image:var(--ke-webp-structure)!important;}
+.page-industries-served .industry-story:nth-of-type(1) .stock-visual{--stock-image:var(--ke-webp-welding)!important;}
+.page-industries-served .industry-story:nth-of-type(2) .stock-visual{--stock-image:var(--ke-webp-structure)!important;}
+.page-industries-served .industry-story:nth-of-type(3) .stock-visual{--stock-image:var(--ke-webp-maintenance)!important;}
+.page-industries-served .industry-story:nth-of-type(4) .stock-visual{--stock-image:var(--ke-webp-agri)!important;}
+.page-industries-served .industry-story:nth-of-type(5) .stock-visual{--stock-image:var(--ke-webp-logistics)!important;}
+.page-industries-served .industry-story:nth-of-type(6) .stock-visual{--stock-image:var(--ke-webp-industry)!important;}
 
 /* National enquiry replaces the former wall of city cards. */
 .national-enquiry-panel{
@@ -40,7 +52,7 @@ img{max-width:100%;height:auto;}
 .national-enquiry-visual strong,.national-enquiry-visual p{color:#fff;}
 @media(max-width:860px){.national-enquiry-panel{grid-template-columns:1fr}.national-enquiry-visual{min-height:260px;}}
 
-/* Quote page */
+/* Quote and application forms */
 .quote-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(290px,.65fr);gap:24px;align-items:start;}
 .quote-terms{display:grid;gap:12px;margin-top:18px;}
 .quote-terms .mini-card{padding:14px;border:1px solid var(--ke-line,var(--line));border-radius:14px;background:var(--ke-surface,#fff);}
@@ -48,6 +60,8 @@ img{max-width:100%;height:auto;}
 .brand-check-grid label{display:flex;gap:8px;align-items:flex-start;font-weight:700;}
 .brand-check-grid input{width:auto;margin-top:4px;}
 .form-help{font-size:.84rem;color:var(--ink-soft,#667085);margin-top:6px;}
+fieldset{border:1px solid var(--ke-line,var(--line));border-radius:14px;padding:16px;margin:18px 0;min-width:0;}
+fieldset legend{padding:0 7px;}
 @media(max-width:900px){.quote-layout{grid-template-columns:1fr}.brand-check-grid{grid-template-columns:1fr;}}
 
 /* Quality and infrastructure visual hygiene */
@@ -91,4 +105,5 @@ img{max-width:100%;height:auto;}
   .national-enquiry-panel{background:linear-gradient(145deg,#242d3b,#2c171d);border-color:rgba(255,119,119,.24);}
   .commercial-term{background:rgba(255,255,255,.04);}
   .commercial-term strong{color:#fff;}
+  fieldset{border-color:rgba(225,232,242,.2);}
 }
