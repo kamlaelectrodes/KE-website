@@ -1,0 +1,9 @@
+Kamla Electrodes correction pass v8 deployment checks
+
+- Standalone facility assets present: plant-partapur.webp and head-office-chhipi-tank.webp
+- Final dark-mode stylesheet loaded through hygiene-v7.css
+- Named contacts restored on contact.html
+- >6σ process-capability statement restored on index, quality and infrastructure pages
+- Controlled NDA evidence route stated on quality, infrastructure, R&D and FAQ pages
+- Dedicated R&D page and expanded 8 Gauge Short case study linked across the site
+- Distribution-partner application includes required minimum monthly purchase quantity
