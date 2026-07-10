@@ -1,0 +1,85 @@
+/* Kamla Electrodes credibility and rendering correction pass v8 */
+
+:root{color-scheme:light dark;}
+
+/* The real facility photographs are standalone, compressed WebP assets. */
+html body .facility-photo.plant-photo{
+  background-image:url('plant-partapur.webp')!important;
+  background-position:center!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+}
+html body .facility-photo.office-photo{
+  background-image:url('head-office-chhipi-tank.webp')!important;
+  background-position:center 22%!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+}
+html body .facility-photo.plant-photo::before,
+html body .facility-photo.office-photo::before{background-image:none!important;}
+.facility-photo.photo-load-failed::after{content:none!important;display:none!important;}
+
+/* Final colour-scheme authority. Earlier light-only enhancement rules must not override dark mode. */
+@media(prefers-color-scheme:light){
+  body{color:#111827!important;background:linear-gradient(180deg,#fff 0%,#fbfcff 48%,#f5f7fa 100%)!important;}
+  .hero,.page-header,.rich-bg{background:linear-gradient(120deg,rgba(255,255,255,.98),rgba(255,246,246,.94))!important;}
+  .hero h1,.hero h2,.hero h3,.page-header h1,.page-header h2,.page-header h3{color:#111827!important;}
+  .hero .lead,.page-header .lead{color:#475467!important;}
+}
+
+@media(prefers-color-scheme:dark){
+  body,body.scroll-page{
+    color:#f4f7fb!important;
+    background:
+      radial-gradient(980px 580px at 104% 4%,rgba(207,32,42,.25),transparent 67%),
+      radial-gradient(760px 520px at -8% 94%,rgba(91,108,136,.22),transparent 68%),
+      linear-gradient(148deg,#090d14 0%,#141a24 46%,#2a1016 78%,#090d14 100%)!important;
+  }
+  .hero,.page-header,.rich-bg,.dealer-hero,.scroll-page .page-header{
+    background:
+      radial-gradient(760px 360px at 100% 0,rgba(226,47,56,.27),transparent 67%),
+      linear-gradient(132deg,#18212d 0%,#202631 52%,#3b1118 100%)!important;
+    border-color:rgba(226,233,242,.16)!important;
+  }
+  .hero::after,.page-header::after,.rich-bg::after{opacity:.12!important;}
+  .hero h1,.hero h2,.hero h3,.page-header h1,.page-header h2,.page-header h3,.rich-bg h1,.rich-bg h2,.rich-bg h3{color:#fff!important;}
+  .hero .lead,.page-header .lead,.rich-bg .lead{color:#d7deea!important;}
+  .hero .muted,.page-header .muted,.rich-bg .muted{color:#c8d1de!important;}
+  .section{color:#edf2f8!important;}
+  .section.alt{background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(5,8,13,.15))!important;}
+  .section h1,.section h2,.section h3{color:#fff!important;}
+  .section p,.section li,.section .muted,.section .lead{color:#cbd4e1!important;}
+  .badge{color:#ffadad!important;background:rgba(219,45,53,.14)!important;border-color:rgba(255,128,128,.36)!important;}
+  .capability-panel{
+    background:linear-gradient(145deg,#222b39,#2b151b)!important;
+    border-color:rgba(255,118,118,.25)!important;
+    box-shadow:0 28px 72px rgba(0,0,0,.4)!important;
+  }
+  .capability-panel h2,.capability-panel strong{color:#fff!important;}
+  .capability-panel p,.capability-panel li{color:#d4dce7!important;}
+  .capability-proof>div{background:rgba(255,255,255,.055)!important;border-color:rgba(230,236,245,.18)!important;color:#eef3f8!important;}
+  .national-enquiry-panel{background:linear-gradient(145deg,#222b39,#2a151b)!important;}
+  .editorial-visual{border:1px solid rgba(230,236,245,.18)!important;}
+}
+
+/* Capability disclosure language is evidence-led, not defensive. */
+.controlled-disclosure{margin-top:18px;padding:16px 18px;border-radius:14px;border-left:4px solid #c9000d;background:rgba(179,0,0,.055);}
+.controlled-disclosure strong{display:block;margin-bottom:5px;}
+
+/* Named contact presentation. */
+.team-contact-list{display:grid;gap:12px;margin-top:18px;}
+.team-contact{padding:15px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);}
+.team-contact strong{display:block;margin-bottom:2px;}
+.team-contact .role{display:block;color:var(--ink-soft);font-size:.88rem;margin-bottom:7px;}
+@media(prefers-color-scheme:dark){
+  .team-contact{background:rgba(255,255,255,.045)!important;border-color:rgba(226,233,242,.18)!important;}
+  .team-contact .role{color:#bfc9d8!important;}
+}
+
+/* R&D pathway cards. */
+.rd-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:22px;}
+.rd-step{padding:17px;border-radius:16px;border:1px solid var(--line);background:var(--surface,#fff);}
+.rd-step span{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#a9000a;color:#fff;font-weight:900;margin-bottom:10px;}
+@media(max-width:950px){.rd-flow{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:560px){.rd-flow{grid-template-columns:1fr;}}
+@media(prefers-color-scheme:dark){.rd-step{background:#1d2531!important;border-color:rgba(226,233,242,.18)!important;}}
