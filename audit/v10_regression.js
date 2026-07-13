@@ -29,7 +29,9 @@ async function openPage(context, file) {
 }
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const launchOptions = { headless: true };
+  if (process.env.PLAYWRIGHT_CHANNEL) launchOptions.channel = process.env.PLAYWRIGHT_CHANNEL;
+  const browser = await chromium.launch(launchOptions);
 
   stage = 'light menu';
   const light = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: 'light' });
