@@ -1,6 +1,11 @@
 (function () {
   'use strict';
 
+  function placeFinalStylesheetLast() {
+    var link = document.querySelector('link[href*="professional-fixes-v10.css"]');
+    if (link && link.parentNode === document.head) document.head.appendChild(link);
+  }
+
   function supportsWebP() {
     try {
       var canvas = document.createElement('canvas');
@@ -158,10 +163,20 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    placeFinalStylesheetLast();
     normaliseStockImages();
     hydrateFacilityImages();
-    window.setTimeout(hydrateFacilityImages, 350);
-    window.setTimeout(hydrateFacilityImages, 1200);
-    window.setTimeout(hydrateFacilityImages, 2400);
+    window.setTimeout(function () {
+      placeFinalStylesheetLast();
+      hydrateFacilityImages();
+    }, 350);
+    window.setTimeout(function () {
+      placeFinalStylesheetLast();
+      hydrateFacilityImages();
+    }, 1200);
+    window.setTimeout(function () {
+      placeFinalStylesheetLast();
+      hydrateFacilityImages();
+    }, 2400);
   });
 })();
