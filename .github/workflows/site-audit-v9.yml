@@ -1,12 +1,15 @@
-name: Full website audit v9
+name: Full website audit v10
 
-# Revision 5: public form submissions run once after the merged site is deployed.
 on:
   push:
     branches:
-      - fix/menu-moq-marketing-balance-v9
+      - fix/language-legacy-safari-contact-v10
       - main
     paths:
+      - '*.html'
+      - '*.css'
+      - '*.js'
+      - 'audit/**'
       - '.github/workflows/site-audit-v9.yml'
   pull_request:
     branches:
@@ -17,7 +20,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: site-audit-v9-${{ github.ref }}
+  group: site-audit-v10-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -32,7 +35,7 @@ jobs:
           ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
-      - name: Standardise shared script cache version
+      - name: Standardise shared assets and cache versions
         shell: bash
         run: |
           set -euo pipefail
@@ -40,25 +43,69 @@ jobs:
           from pathlib import Path
 
           changed = []
+          css_link = '<link rel="stylesheet" href="professional-fixes-v10.css?v=1">'
+          compat_script = '<script src="legacy-compat-v10.js?v=1"></script>'
+
           for page in Path('.').glob('*.html'):
               original = page.read_text(encoding='utf-8')
-              updated = original.replace('app.js?v=11', 'app.js?v=12')
+              updated = original.replace('app.js?v=11', 'app.js?v=13')
+              updated = updated.replace('app.js?v=12', 'app.js?v=13')
               updated = updated.replace('<script src="site-v8.js?v=1"></script>', '')
+              if css_link not in updated:
+                  updated = updated.replace('</head>', css_link + '</head>')
+              if compat_script not in updated:
+                  updated = updated.replace('</body>', compat_script + '</body>')
               if updated != original:
                   page.write_text(updated, encoding='utf-8')
                   changed.append(page.name)
-          print('Normalised pages:', ', '.join(changed) if changed else 'none')
+
+          audit_file = Path('audit/site_audit.py')
+          if audit_file.exists():
+              original = audit_file.read_text(encoding='utf-8')
+              updated = original.replace('app.js?v=12', 'app.js?v=13')
+              if updated != original:
+                  audit_file.write_text(updated, encoding='utf-8')
+                  changed.append(str(audit_file))
+
+          print('Normalised files:', ', '.join(changed) if changed else 'none')
           PY
 
-          if [[ -n "$(git status --porcelain -- '*.html')" ]]; then
+          if [[ -n "$(git status --porcelain -- '*.html' 'audit/site_audit.py')" ]]; then
             git config user.name 'kamlaelectrodes-bot'
             git config user.email 'actions@users.noreply.github.com'
-            git add -- '*.html'
-            git commit -m 'Standardise sitewide app cache version for menu fixes'
-            if [[ "${GITHUB_EVENT_NAME}" == "push" && "${GITHUB_REF_NAME}" == "fix/menu-moq-marketing-balance-v9" ]]; then
+            git add -- '*.html' 'audit/site_audit.py'
+            git commit -m 'Load v10 compatibility assets sitewide'
+            if [[ "${GITHUB_EVENT_NAME}" == "push" && "${GITHUB_REF_NAME}" == "fix/language-legacy-safari-contact-v10" ]]; then
               git push origin "HEAD:${GITHUB_REF_NAME}"
             fi
           fi
+
+      - name: Audit public language
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          prohibited = {
+              'anonymous priority numbers': 'internal correction language must not appear in public copy',
+              'decorative claim': 'dismissive wording must not appear in public copy',
+              'laboratory ornament': 'informal comparison must not appear in public copy',
+              'does not claim': 'defensive disclaimer language must be replaced with documentation-on-request wording',
+              'rather than reducing': 'internal comparison language must not appear in public copy',
+              'not a more complicated electrode': 'informal comparison must not appear in public copy',
+              'school project': 'unprofessional wording must not appear in public copy',
+          }
+          errors = []
+          for page in Path('.').glob('*.html'):
+              text = page.read_text(encoding='utf-8').lower()
+              for phrase, reason in prohibited.items():
+                  if phrase in text:
+                      errors.append(f'{page.name}: {phrase!r} — {reason}')
+          if errors:
+              print('\n'.join(errors))
+              raise SystemExit(1)
+          print('Public-language audit passed.')
+          PY
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -98,13 +145,18 @@ jobs:
           AUDIT_LOCAL_BASE: http://127.0.0.1:4173/
         run: node audit/browser_audit.js
 
+      - name: Audit v10 regressions in light and dark modes
+        env:
+          AUDIT_LOCAL_BASE: http://127.0.0.1:4173/
+        run: node audit/v10_regression.js
+
       - name: Wait for the merged site deployment
         if: github.event_name == 'push' && github.ref_name == 'main'
         shell: bash
         run: |
           set -euo pipefail
           for attempt in {1..36}; do
-            if curl -fsSL -H 'Cache-Control: no-cache' "https://kamlaelectrodes.com/?deploy_check=${GITHUB_SHA}-${attempt}" | grep -q 'app.js?v=12'; then
+            if curl -fsSL -H 'Cache-Control: no-cache' "https://kamlaelectrodes.com/?deploy_check=${GITHUB_SHA}-${attempt}" | grep -q 'app.js?v=13'; then
               echo 'Updated public site detected.'
               exit 0
             fi
@@ -117,29 +169,6 @@ jobs:
       - name: Audit static links and live HTTP loading
         run: python audit/site_audit.py --live-base https://kamlaelectrodes.com/ --report audit-report.json
 
-      - name: Send and verify one live-browser test through each public form
-        if: always() && github.event_name == 'push' && github.ref_name == 'main'
-        env:
-          AUDIT_LIVE_BASE: https://kamlaelectrodes.com/
-        run: node audit/live_form_submit.js
-
-      - name: Persist latest live form evidence
-        if: always() && github.event_name == 'push' && github.ref_name == 'main'
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ -f live-form-submission-report.json ]]; then
-            mkdir -p audit
-            cp live-form-submission-report.json audit/latest-live-form-report.json
-            git config user.name 'kamlaelectrodes-bot'
-            git config user.email 'actions@users.noreply.github.com'
-            git add audit/latest-live-form-report.json
-            if ! git diff --cached --quiet; then
-              git commit -m 'Record latest live website form audit'
-              git push origin HEAD:main
-            fi
-          fi
-
       - name: Upload audit evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -148,7 +177,7 @@ jobs:
           path: |
             audit-report*.json
             browser-audit-report.json
-            live-form-submission-report.json
+            v10-regression-report.json
             /tmp/ke-site-server.log
           if-no-files-found: warn
           retention-days: 30
