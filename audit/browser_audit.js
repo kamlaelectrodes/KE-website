@@ -56,7 +56,9 @@ async function fillRequiredFields(page) {
 }
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const launchOptions = { headless: true };
+  if (process.env.PLAYWRIGHT_CHANNEL) launchOptions.channel = process.env.PLAYWRIGHT_CHANNEL;
+  const browser = await chromium.launch(launchOptions);
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: 'dark' });
 
   for (const file of pages) {
@@ -113,12 +115,23 @@ async function fillRequiredFields(page) {
       const facilityCount = await facility.count();
       for (let i = 0; i < facilityCount; i += 1) {
         const node = facility.nth(i);
-        const info = await node.evaluate(el => ({
-          src: el.getAttribute('src') || '',
-          background: getComputedStyle(el).backgroundImage || '',
-        }));
-        const source = `${info.src} ${info.background}`;
-        if (!/\.webp/i.test(source)) record(file, 'Facility image does not resolve to a WebP asset');
+        const info = await node.evaluate(el => {
+          const webpSource = el.querySelector ? el.querySelector('source[type="image/webp"]') : null;
+          const fallbackImage = el.querySelector ? el.querySelector('img') : null;
+          const src = el.getAttribute('src') || '';
+          const background = getComputedStyle(el).backgroundImage || '';
+          const pictureSource = webpSource ? (webpSource.getAttribute('srcset') || '') : '';
+          const fallback = fallbackImage ? (fallbackImage.getAttribute('src') || '') : '';
+          return {
+            hasWebP: /\.webp/i.test(`${src} ${background} ${pictureSource}`),
+            isPictureButton: el.classList.contains('facility-photo-button'),
+            hasJpegFallback: /^data:image\/jpeg/i.test(fallback) || /\.jpe?g(?:$|[?#])/i.test(fallback)
+          };
+        });
+        if (!info.hasWebP) record(file, 'Facility image does not expose a WebP source');
+        if (info.isPictureButton && !info.hasJpegFallback) {
+          record(file, 'Facility picture button does not expose a JPEG fallback');
+        }
       }
 
       const form = page.locator('form[action*="web3forms.com/submit"]');
