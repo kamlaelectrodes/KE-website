@@ -38,8 +38,18 @@ async function openPage(context, file) {
   if (await facilityButton.count() === 0) {
     fail('contact.html', 'Facility picture fallback button was not created');
   } else {
-    const imgSrc = await facilityButton.locator('img').getAttribute('src');
-    if (!imgSrc || (!imgSrc.startsWith('data:image/jpeg') && !imgSrc.endsWith('.jpg'))) fail('contact.html', 'Facility fallback is not a JPEG source');
+    const sourceState = await facilityButton.evaluate(el => {
+      const img = el.querySelector('img');
+      const source = el.querySelector('source[type="image/webp"]');
+      const imgSrc = img ? (img.getAttribute('src') || '') : '';
+      const webpSrc = source ? (source.getAttribute('srcset') || '') : '';
+      return {
+        hasJpegFallback: /^data:image\/jpeg/i.test(imgSrc) || /\.jpe?g(?:$|[?#])/i.test(imgSrc),
+        hasWebPSource: /\.webp/i.test(webpSrc)
+      };
+    });
+    if (!sourceState.hasJpegFallback) fail('contact.html', 'Facility fallback is not a JPEG source');
+    if (!sourceState.hasWebPSource) fail('contact.html', 'Facility picture does not expose a WebP source');
     await facilityButton.click();
     if (await page.locator('.image-lightbox:not([hidden])').count() !== 1) fail('contact.html', 'Facility image lightbox did not open');
   }
