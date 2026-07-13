@@ -116,19 +116,19 @@ async function fillRequiredFields(page) {
         const info = await node.evaluate(el => {
           const webpSource = el.querySelector ? el.querySelector('source[type="image/webp"]') : null;
           const fallbackImage = el.querySelector ? el.querySelector('img') : null;
+          const src = el.getAttribute('src') || '';
+          const background = getComputedStyle(el).backgroundImage || '';
+          const pictureSource = webpSource ? (webpSource.getAttribute('srcset') || '') : '';
+          const fallback = fallbackImage ? (fallbackImage.getAttribute('src') || '') : '';
           return {
-            src: el.getAttribute('src') || '',
-            background: getComputedStyle(el).backgroundImage || '',
-            pictureSource: webpSource ? (webpSource.getAttribute('srcset') || '') : '',
-            fallback: fallbackImage ? (fallbackImage.getAttribute('src') || '') : ''
+            hasWebP: /\.webp/i.test(`${src} ${background} ${pictureSource}`),
+            isPictureButton: el.classList.contains('facility-photo-button'),
+            hasJpegFallback: /^data:image\/jpeg/i.test(fallback) || /\.jpe?g(?:$|[?#])/i.test(fallback)
           };
         });
-        const modernSource = `${info.src} ${info.background} ${info.pictureSource}`;
-        if (!/\.webp/i.test(modernSource)) record(file, 'Facility image does not expose a WebP source');
-        if (node && await node.evaluate(el => el.classList.contains('facility-photo-button'))) {
-          if (!/^data:image\/jpeg/i.test(info.fallback) && !/\.jpe?g(?:$|[?#])/i.test(info.fallback)) {
-            record(file, 'Facility picture button does not expose a JPEG fallback');
-          }
+        if (!info.hasWebP) record(file, 'Facility image does not expose a WebP source');
+        if (info.isPictureButton && !info.hasJpegFallback) {
+          record(file, 'Facility picture button does not expose a JPEG fallback');
         }
       }
 
