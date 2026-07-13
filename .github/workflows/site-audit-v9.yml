@@ -21,7 +21,7 @@ permissions:
 
 concurrency:
   group: site-audit-v10-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   audit:
@@ -120,11 +120,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install browser audit dependencies
+      - name: Install browser audit package
         run: |
           npm init -y >/dev/null 2>&1
           npm install --no-save playwright@1.52.0
-          npx playwright install --with-deps chromium
 
       - name: Start local website server
         shell: bash
@@ -143,11 +142,13 @@ jobs:
       - name: Audit every page in mobile dark mode
         env:
           AUDIT_LOCAL_BASE: http://127.0.0.1:4173/
+          PLAYWRIGHT_CHANNEL: chrome
         run: node audit/browser_audit.js
 
       - name: Audit v10 regressions in light and dark modes
         env:
           AUDIT_LOCAL_BASE: http://127.0.0.1:4173/
+          PLAYWRIGHT_CHANNEL: chrome
         run: node audit/v10_regression.js
 
       - name: Wait for the merged site deployment
