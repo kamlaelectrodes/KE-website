@@ -31,6 +31,13 @@
     });
   }
 
+  function cssImageValue(variableName) {
+    var raw = window.getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+    if (!raw) return '';
+    var match = raw.match(/^url\(["']?(.*?)["']?\)$/i);
+    return match ? match[1] : raw;
+  }
+
   var lightbox;
   var lightboxSource;
   var lightboxImage;
@@ -75,7 +82,7 @@
     ensureLightbox();
     lastTrigger = trigger;
     lightboxSource.setAttribute('srcset', asset.webp);
-    lightboxImage.setAttribute('src', asset.jpg);
+    lightboxImage.setAttribute('src', asset.fallback);
     lightboxImage.setAttribute('alt', asset.alt);
     lightboxCaption.textContent = asset.caption;
     lightbox.hidden = false;
@@ -85,6 +92,8 @@
 
   function buildPictureButton(node, asset) {
     if (node.classList.contains('facility-photo-button')) return;
+    if (!asset.fallback) return;
+
     var button = document.createElement('button');
     button.type = 'button';
     button.className = 'facility-photo facility-photo-button ' + asset.className;
@@ -96,7 +105,7 @@
     source.type = 'image/webp';
     source.srcset = asset.webp;
     var image = document.createElement('img');
-    image.src = asset.jpg;
+    image.src = asset.fallback;
     image.alt = asset.alt;
     image.width = asset.width;
     image.height = asset.height;
@@ -105,7 +114,7 @@
     image.style.objectPosition = asset.position;
     image.addEventListener('error', function () {
       if (source.parentNode) source.parentNode.removeChild(source);
-      if (image.getAttribute('src') !== asset.jpg) image.setAttribute('src', asset.jpg);
+      if (image.getAttribute('src') !== asset.fallback) image.setAttribute('src', asset.fallback);
     });
     picture.appendChild(source);
     picture.appendChild(image);
@@ -120,9 +129,9 @@
         selector: '.facility-photo.plant-photo,.ke-hydrated-photo.plant-photo',
         className: 'plant-photo',
         webp: 'plant-partapur.webp',
-        jpg: 'plant-partapur.jpg',
-        width: 1600,
-        height: 493,
+        fallback: cssImageValue('--ke-plant-image'),
+        width: 1000,
+        height: 308,
         position: 'center',
         alt: 'Kamla Electrodes manufacturing plant at Partapur, Meerut',
         caption: 'Kamla Electrodes manufacturing plant — Partapur, Meerut'
@@ -131,9 +140,9 @@
         selector: '.facility-photo.office-photo,.ke-hydrated-photo.office-photo',
         className: 'office-photo',
         webp: 'head-office-chhipi-tank.webp',
-        jpg: 'head-office-chhipi-tank.jpg',
-        width: 1000,
-        height: 1482,
+        fallback: cssImageValue('--ke-office-image'),
+        width: 480,
+        height: 711,
         position: 'center 22%',
         alt: 'Kamla Complex head office at Chhipi Tank, Meerut',
         caption: 'Kamla Complex head office — Chhipi Tank, Meerut'
@@ -151,7 +160,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     normaliseStockImages();
     hydrateFacilityImages();
-    window.setTimeout(hydrateFacilityImages, 300);
+    window.setTimeout(hydrateFacilityImages, 350);
     window.setTimeout(hydrateFacilityImages, 1200);
+    window.setTimeout(hydrateFacilityImages, 2400);
   });
 })();
