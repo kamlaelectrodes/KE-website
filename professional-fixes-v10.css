@@ -1,0 +1,178 @@
+/* Kamla Electrodes professional correction pass v10 */
+
+/* Legacy Safari: use compressed JPEG delivery for CSS-driven stock images. */
+:root{
+  --ke-webp-welding:url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&fm=jpg&w=1200&q=72');
+  --ke-webp-industry:url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&fm=jpg&w=1200&q=72');
+  --ke-webp-structure:url('https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&fm=jpg&w=1200&q=72');
+  --ke-webp-logistics:url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&fm=jpg&w=1200&q=72');
+  --ke-webp-agri:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&fm=jpg&w=1200&q=72');
+  --ke-webp-maintenance:url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&fm=jpg&w=1200&q=72');
+}
+
+/* Light mode must read as a complete light interface, including the full-site menu. */
+@media(prefers-color-scheme:light){
+  .site-menu-overlay{
+    background:rgba(226,231,238,.82)!important;
+    backdrop-filter:blur(12px) saturate(1.04)!important;
+  }
+  .site-menu-panel{
+    background:
+      radial-gradient(680px 440px at 100% 5%,rgba(179,0,0,.15),transparent 66%),
+      linear-gradient(140deg,#f7f9fc 0%,#fff 48%,#fff1f1 100%)!important;
+    border:1px solid rgba(91,105,126,.28)!important;
+    box-shadow:0 38px 96px rgba(30,38,51,.28)!important;
+  }
+  .site-menu-kicker{color:#a30a12!important;}
+  .site-menu-content h2{color:#111827!important;}
+  .site-menu-subtext{color:#465266!important;}
+  .site-menu-links a{
+    color:#351017!important;
+    background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(239,242,247,.96))!important;
+    border:1px solid rgba(104,116,135,.28)!important;
+    box-shadow:0 11px 27px rgba(34,45,61,.10)!important;
+  }
+  .site-menu-links a:nth-child(2n){
+    background:linear-gradient(145deg,#fff,#f5ebed)!important;
+  }
+  .site-menu-links a:hover{
+    background:#fff!important;
+    border-color:rgba(179,0,0,.45)!important;
+  }
+  .site-menu-links a.active{
+    color:#fff!important;
+    background:linear-gradient(135deg,#ef3333,#99040d 68%,#5c0308)!important;
+    border-color:rgba(120,0,8,.24)!important;
+  }
+  .site-menu-close{
+    color:#800008!important;
+    background:#fff!important;
+    border-color:rgba(110,121,138,.28)!important;
+    box-shadow:0 12px 28px rgba(31,39,52,.18)!important;
+  }
+}
+
+@media (prefers-color-scheme:light) and (max-width:760px){
+  .site-menu-panel{
+    background:
+      radial-gradient(520px 340px at 100% 6%,rgba(179,0,0,.13),transparent 67%),
+      linear-gradient(145deg,#f4f7fb,#fff5f5)!important;
+  }
+}
+
+/* Contact team stays in the normal document scroll; it is never an inner scroll container. */
+.page-contact .contact-team-card,
+.page-contact .split>aside.card{
+  position:static!important;
+  top:auto!important;
+  align-self:start!important;
+  height:auto!important;
+  max-height:none!important;
+  overflow:visible!important;
+  overscroll-behavior:auto!important;
+}
+
+/* Image captions remain legible on every photograph and in both colour schemes. */
+.editorial-visual::after{
+  background:linear-gradient(180deg,rgba(5,9,15,.10) 0%,rgba(5,9,15,.34) 45%,rgba(5,9,15,.93) 100%)!important;
+}
+.editorial-visual .visual-copy{
+  background:linear-gradient(180deg,transparent,rgba(5,9,15,.84))!important;
+  text-shadow:0 2px 12px rgba(0,0,0,.75)!important;
+}
+.page-header .editorial-visual .visual-copy h3,
+.page-header .editorial-visual .visual-copy p,
+.section .editorial-visual .visual-copy h3,
+.section .editorial-visual .visual-copy p{
+  color:#fff!important;
+}
+
+/* Native picture fallback for Safari versions without WebP support. */
+.facility-photo-button{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  background:#c8d0d9!important;
+  cursor:zoom-in!important;
+  text-align:initial!important;
+}
+.facility-photo-button picture,
+.facility-photo-button img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+}
+.facility-photo-button img{
+  object-fit:cover!important;
+  object-position:var(--facility-position,center)!important;
+}
+.facility-photo-button::after{
+  content:'View image';
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  z-index:4;
+  padding:7px 10px;
+  border-radius:999px;
+  color:#fff;
+  background:rgba(8,13,21,.76);
+  border:1px solid rgba(255,255,255,.24);
+  font-size:.76rem;
+  font-weight:800;
+  opacity:.88;
+}
+.facility-photo-button:focus-visible{outline:3px solid #ff625d!important;outline-offset:3px!important;}
+
+.image-lightbox[hidden]{display:none!important;}
+.image-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(3,6,10,.92);
+  backdrop-filter:blur(9px);
+}
+.image-lightbox-dialog{
+  position:relative;
+  width:min(1100px,96vw);
+  max-height:92vh;
+  display:grid;
+  gap:10px;
+  padding:16px;
+  border-radius:20px;
+  background:#111722;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 38px 110px rgba(0,0,0,.58);
+}
+.image-lightbox picture,
+.image-lightbox img{display:block;max-width:100%;max-height:78vh;margin:auto;border-radius:12px;}
+.image-lightbox-caption{margin:0;color:#eef3f8;text-align:center;font-size:.9rem;}
+.image-lightbox-close{
+  position:absolute;
+  top:-14px;
+  right:-14px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.34);
+  background:#fff;
+  color:#820009;
+  font-size:1.8rem;
+  line-height:1;
+  cursor:pointer;
+  box-shadow:0 12px 28px rgba(0,0,0,.35);
+}
+body.image-lightbox-open{overflow:hidden!important;}
+
+@media(max-width:760px){
+  .image-lightbox{padding:12px;}
+  .image-lightbox-dialog{padding:10px;width:98vw;}
+  .image-lightbox-close{top:6px;right:6px;}
+}
