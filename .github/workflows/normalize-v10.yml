@@ -1,0 +1,64 @@
+name: Normalize v10 assets sitewide
+
+on:
+  push:
+    branches:
+      - fix/language-legacy-safari-contact-v10
+      - main
+    paths:
+      - '*.html'
+      - '*.css'
+      - '*.js'
+      - '.github/workflows/normalize-v10.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: normalize-v10-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Load v10 compatibility assets on every page
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          css_link = '<link rel="stylesheet" href="professional-fixes-v10.css?v=1">'
+          compat_script = '<script src="legacy-compat-v10.js?v=1"></script>'
+          changed = []
+
+          for page in Path('.').glob('*.html'):
+              original = page.read_text(encoding='utf-8')
+              updated = original.replace('app.js?v=11', 'app.js?v=13')
+              updated = updated.replace('app.js?v=12', 'app.js?v=13')
+              updated = updated.replace('<script src="site-v8.js?v=1"></script>', '')
+              if css_link not in updated:
+                  updated = updated.replace('</head>', css_link + '</head>')
+              if compat_script not in updated:
+                  updated = updated.replace('</body>', compat_script + '</body>')
+              if updated != original:
+                  page.write_text(updated, encoding='utf-8')
+                  changed.append(page.name)
+
+          print('Updated:', ', '.join(changed) if changed else 'none')
+          PY
+
+          if [[ -n "$(git status --porcelain -- '*.html')" ]]; then
+            git config user.name 'kamlaelectrodes-bot'
+            git config user.email 'actions@users.noreply.github.com'
+            git add -- '*.html'
+            git commit -m 'Load v10 compatibility assets sitewide'
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
