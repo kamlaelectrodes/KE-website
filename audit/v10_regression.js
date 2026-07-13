@@ -4,12 +4,24 @@ const fs = require('fs');
 const base = process.env.AUDIT_LOCAL_BASE || 'http://127.0.0.1:4173/';
 const findings = [];
 const checks = [];
+let stage = 'initialisation';
 
 function fail(page, message) {
   findings.push(`${page}: ${message}`);
 }
 
+function writeReport(error = null) {
+  fs.writeFileSync('v10-regression-report.json', JSON.stringify({
+    base,
+    stage,
+    checks,
+    findings,
+    error: error ? (error.stack || error.message || String(error)) : null
+  }, null, 2));
+}
+
 async function openPage(context, file) {
+  stage = `open ${file}`;
   const page = await context.newPage();
   const response = await page.goto(new URL(file, base).toString(), { waitUntil: 'networkidle', timeout: 30000 });
   if (!response || response.status() >= 400) fail(file, `HTTP ${response ? response.status() : 'no response'}`);
@@ -19,6 +31,7 @@ async function openPage(context, file) {
 (async () => {
   const browser = await chromium.launch({ headless: true });
 
+  stage = 'light menu';
   const light = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: 'light' });
   let page = await openPage(light, 'index.html');
   await page.locator('.site-menu-button').click();
@@ -29,6 +42,7 @@ async function openPage(context, file) {
   checks.push({ check: 'light menu', lightMenu, lightLink });
   await page.close();
 
+  stage = 'contact and facility fallback';
   page = await openPage(light, 'contact.html');
   const contactStyle = await page.locator('.contact-team-card').evaluate(el => ({ position: getComputedStyle(el).position, overflowY: getComputedStyle(el).overflowY, maxHeight: getComputedStyle(el).maxHeight }));
   if (contactStyle.position === 'sticky') fail('contact.html', 'Contact team card is still sticky');
@@ -56,6 +70,7 @@ async function openPage(context, file) {
   checks.push({ check: 'contact and facility fallback', contactStyle });
   await page.close();
 
+  stage = 'R&D image text';
   page = await openPage(light, 'research-development.html');
   const visualText = await page.locator('.editorial-visual .visual-copy h3').evaluate(el => ({ color: getComputedStyle(el).color, shadow: getComputedStyle(el).textShadow }));
   if (!/rgb\(255, 255, 255\)/.test(visualText.color)) fail('research-development.html', 'Image caption heading is not white');
@@ -63,6 +78,7 @@ async function openPage(context, file) {
   checks.push({ check: 'R&D image text', visualText });
   await page.close();
 
+  stage = 'product table';
   page = await openPage(light, 'products.html');
   const productText = await page.locator('table').innerText();
   if (/8 Gauge Short/i.test(productText)) fail('products.html', 'Market nickname remains in the technical size table');
@@ -72,6 +88,7 @@ async function openPage(context, file) {
   checks.push({ check: 'product table', shortRow });
   await page.close();
 
+  stage = 'dark menu';
   const dark = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: 'dark' });
   page = await openPage(dark, 'index.html');
   await page.locator('.site-menu-button').click();
@@ -84,10 +101,15 @@ async function openPage(context, file) {
   await dark.close();
   await browser.close();
 
-  fs.writeFileSync('v10-regression-report.json', JSON.stringify({ base, checks, findings }, null, 2));
+  stage = 'complete';
+  writeReport();
   if (findings.length) {
     findings.forEach(item => console.error(`- ${item}`));
     process.exit(1);
   }
   console.log('V10 regression audit passed.');
-})();
+})().catch(error => {
+  writeReport(error);
+  console.error(`V10 regression crashed during ${stage}:`, error);
+  process.exit(1);
+});
