@@ -113,12 +113,23 @@ async function fillRequiredFields(page) {
       const facilityCount = await facility.count();
       for (let i = 0; i < facilityCount; i += 1) {
         const node = facility.nth(i);
-        const info = await node.evaluate(el => ({
-          src: el.getAttribute('src') || '',
-          background: getComputedStyle(el).backgroundImage || '',
-        }));
-        const source = `${info.src} ${info.background}`;
-        if (!/\.webp/i.test(source)) record(file, 'Facility image does not resolve to a WebP asset');
+        const info = await node.evaluate(el => {
+          const webpSource = el.querySelector ? el.querySelector('source[type="image/webp"]') : null;
+          const fallbackImage = el.querySelector ? el.querySelector('img') : null;
+          return {
+            src: el.getAttribute('src') || '',
+            background: getComputedStyle(el).backgroundImage || '',
+            pictureSource: webpSource ? (webpSource.getAttribute('srcset') || '') : '',
+            fallback: fallbackImage ? (fallbackImage.getAttribute('src') || '') : ''
+          };
+        });
+        const modernSource = `${info.src} ${info.background} ${info.pictureSource}`;
+        if (!/\.webp/i.test(modernSource)) record(file, 'Facility image does not expose a WebP source');
+        if (node && await node.evaluate(el => el.classList.contains('facility-photo-button'))) {
+          if (!/^data:image\/jpeg/i.test(info.fallback) && !/\.jpe?g(?:$|[?#])/i.test(info.fallback)) {
+            record(file, 'Facility picture button does not expose a JPEG fallback');
+          }
+        }
       }
 
       const form = page.locator('form[action*="web3forms.com/submit"]');
