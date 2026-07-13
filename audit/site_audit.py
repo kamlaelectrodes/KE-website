@@ -71,7 +71,7 @@ def static_audit() -> tuple[list[Finding], list[dict]]:
         if rel not in UTILITY_WITHOUT_SHARED_APP:
             if not app_script:
                 findings.append(Finding("error", rel, "Shared app.js is not included"))
-            elif "app.js?v=12" not in text:
+            elif "app.js?v=13" not in text:
                 findings.append(Finding("error", rel, "Shared app.js cache version is not v12"))
 
         for tag, attr in (("a", "href"), ("link", "href"), ("script", "src"), ("img", "src")):
@@ -147,7 +147,7 @@ def live_audit(base_url: str, cache_key: str) -> list[Finding]:
         if len(response.content) < 500:
             findings.append(Finding("warning", page.name, f"Live response is unusually small ({len(response.content)} bytes)"))
 
-    for asset in ("app.js?v=12", "plant-partapur.webp", "head-office-chhipi-tank.webp", "style.css?v=5"):
+    for asset in ("app.js?v=13", "plant-partapur.webp", "head-office-chhipi-tank.webp", "style.css?v=5"):
         try:
             response = session.get(urljoin(base_url.rstrip("/") + "/", asset), timeout=30, allow_redirects=True)
             if response.status_code != 200:
